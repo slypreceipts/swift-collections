@@ -11,7 +11,7 @@
 
 extension Deque: CustomDebugStringConvertible {
   /// A textual representation of this instance, suitable for debugging.
-  public var debugDescription: String {
+  var debugDescription: String {
     var result = "Deque<\(Element.self)>(["
     var first = true
     for item in self {

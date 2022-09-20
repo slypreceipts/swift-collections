@@ -17,33 +17,32 @@
 ///     instantiate or deinitialize instances belonging to the same tracker
 ///     from multiple concurrent threads (or reentrantly) will lead to
 ///     exclusivity violations and therefore undefined behavior.
-public class LifetimeTracker {
-  public internal(set) var instances = 0
+class LifetimeTracker {
+  var instances = 0
   var _nextSerialNumber = 0
 
-  public init() {}
+  init() {}
 
   deinit {
     check()
   }
 
-  public func check(file: StaticString = #file, line: UInt = #line) {
+  func check(file: StaticString = #file, line: UInt = #line) {
     expectEqual(instances, 0,
                 "Potential leak of \(instances) objects",
                 file: file, line: line)
   }
 
-  public func instance<Payload>(for payload: Payload) -> LifetimeTracked<Payload> {
+  func instance<Payload>(for payload: Payload) -> LifetimeTracked<Payload> {
     LifetimeTracked(payload, for: self)
   }
 
-  public func instances<S: Sequence>(for items: S) -> [LifetimeTracked<S.Element>] {
+  func instances<S: Sequence>(for items: S) -> [LifetimeTracked<S.Element>] {
     return items.map { LifetimeTracked($0, for: self) }
   }
 }
 
-@inlinable
-public func withLifetimeTracking<R>(
+func withLifetimeTracking<R>(
   file: StaticString = #file,
   line: UInt = #line,
   _ body: (LifetimeTracker) throws -> R

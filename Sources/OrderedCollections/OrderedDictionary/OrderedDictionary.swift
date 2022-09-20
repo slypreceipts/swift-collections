@@ -203,15 +203,14 @@
 ///
 /// An ordered dictionary consists of an ordered set of keys, alongside a
 /// regular `Array` value that contains their associated values.
-@frozen
-public struct OrderedDictionary<Key: Hashable, Value> {
+struct OrderedDictionary<Key: Hashable, Value> {
   @usableFromInline
   internal var _keys: OrderedSet<Key>
 
   @usableFromInline
   internal var _values: ContiguousArray<Value>
 
-  @inlinable
+
   @inline(__always)
   internal init(
     _uniqueKeys keys: OrderedSet<Key>,
@@ -227,16 +226,16 @@ extension OrderedDictionary {
   /// an `OrderedSet`.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var keys: OrderedSet<Key> { _keys }
+  var keys: OrderedSet<Key> { _keys }
 
   /// A mutable collection view containing the values in this dictionary.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var values: Values {
+  var values: Values {
     get { Values(_base: self) }
     @inline(__always) // https://github.com/apple/swift-collections/issues/164
     _modify {
@@ -249,21 +248,21 @@ extension OrderedDictionary {
 }
 
 extension OrderedDictionary {
-  public typealias Index = Int
+  typealias Index = Int
 
   /// A Boolean value indicating whether the dictionary is empty.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var isEmpty: Bool { _values.isEmpty }
+  var isEmpty: Bool { _values.isEmpty }
 
   /// The number of elements in the dictionary.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var count: Int { _values.count }
+  var count: Int { _values.count }
 
   /// Returns the index for the given key.
   ///
@@ -283,9 +282,9 @@ extension OrderedDictionary {
   ///
   /// - Complexity: Expected to be O(1) on average, if `Key` implements
   ///    high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public func index(forKey key: Key) -> Int? {
+  func index(forKey key: Key) -> Int? {
     _keys.firstIndex(of: key)
   }
 }
@@ -343,8 +342,8 @@ extension OrderedDictionary {
   ///    dictionary also has an amortized expected complexity of O(1) --
   ///    although individual updates may need to copy or resize the dictionary's
   ///    underlying storage.
-  @inlinable
-  public subscript(key: Key) -> Value? {
+
+  subscript(key: Key) -> Value? {
     get {
       guard let index = _keys.firstIndex(of: key) else { return nil }
       return _values[index]
@@ -379,7 +378,7 @@ extension OrderedDictionary {
     }
   }
 
-  @inlinable
+
   internal mutating func _prepareForKeyingModify(
     _ key: Key,
     _ value: inout Value?
@@ -395,7 +394,7 @@ extension OrderedDictionary {
     return (index, bucket)
   }
 
-  @inlinable
+
   internal mutating func _finalizeKeyingModify(
     _ key: Key,
     _ index: Int?,
@@ -482,8 +481,8 @@ extension OrderedDictionary {
   ///    dictionary also has an amortized expected complexity of O(1) --
   ///    although individual updates may need to copy or resize the dictionary's
   ///    underlying storage.
-  @inlinable
-  public subscript(
+
+  subscript(
     key: Key,
     default defaultValue: @autoclosure () -> Value
   ) -> Value {
@@ -501,7 +500,7 @@ extension OrderedDictionary {
     }
   }
 
-  @inlinable
+
   internal mutating func _prepareForDefaultedModify(
     _ key: Key,
     _ defaultValue: () -> Value
@@ -518,7 +517,7 @@ extension OrderedDictionary {
     return (index, value)
   }
 
-  @inlinable
+
   internal mutating func _finalizeDefaultedModify(
     _ index: Int, _ value: inout Value
   ) {
@@ -570,9 +569,9 @@ extension OrderedDictionary {
   ///
   /// - Complexity: expected complexity is amortized O(1), if `Key` implements
   ///    high-quality hashing.
-  @inlinable
+
   @discardableResult
-  public mutating func updateValue(_ value: Value, forKey key: Key) -> Value? {
+  mutating func updateValue(_ value: Value, forKey key: Key) -> Value? {
     let (index, bucket) = _keys._find(key)
     if let index = index {
       let old = _values[index]
@@ -634,9 +633,9 @@ extension OrderedDictionary {
   ///    is the index corresponding to the updated (or inserted) value.
   ///
   /// - Complexity: O(`count`)
-  @inlinable
+
   @discardableResult
-  public mutating func updateValue(
+  mutating func updateValue(
     _ value: Value,
     forKey key: Key,
     insertingAt index: Int
@@ -682,8 +681,8 @@ extension OrderedDictionary {
   ///
   /// - Complexity: expected complexity is amortized O(1), if `Key` implements
   ///    high-quality hashing. (Ignoring the complexity of calling `body`.)
-  @inlinable
-  public mutating func updateValue<R>(
+
+  mutating func updateValue<R>(
     forKey key: Key,
     default defaultValue: @autoclosure () -> Value,
     with body: (inout Value) throws -> R
@@ -728,8 +727,8 @@ extension OrderedDictionary {
   ///
   /// - Complexity: expected complexity is amortized O(1), if `Key` implements
   ///    high-quality hashing. (Ignoring the complexity of calling `body`.)
-  @inlinable
-  public mutating func updateValue<R>(
+
+  mutating func updateValue<R>(
     forKey key: Key,
     insertingDefault defaultValue: @autoclosure () -> Value,
     at index: Int,
@@ -775,9 +774,9 @@ extension OrderedDictionary {
   ///   present in the dictionary.
   ///
   /// - Complexity: O(`count`)
-  @inlinable
+
   @discardableResult
-  public mutating func removeValue(forKey key: Key) -> Value? {
+  mutating func removeValue(forKey key: Key) -> Value? {
     let (idx, bucket) = _keys._find(key)
     guard let index = idx else { return nil }
     _keys._removeExistingMember(at: index, in: bucket)
@@ -821,8 +820,8 @@ extension OrderedDictionary {
   /// - Complexity: Expected to be O(*n*) on average, where *n* is the number of
   ///    elements in `keysAndValues`, if `Key` implements high-quality hashing.
   @_disfavoredOverload // https://github.com/apple/swift-collections/issues/125
-  @inlinable
-  public mutating func merge<S: Sequence>(
+
+  mutating func merge<S: Sequence>(
     _ keysAndValues: __owned S,
     uniquingKeysWith combine: (Value, Value) throws -> Value
   ) rethrows where S.Element == (key: Key, value: Value) {
@@ -871,8 +870,8 @@ extension OrderedDictionary {
   ///
   /// - Complexity: Expected to be O(*n*) on average, where *n* is the number of
   ///    elements in `keysAndValues`, if `Key` implements high-quality hashing.
-  @inlinable
-  public mutating func merge<S: Sequence>(
+
+  mutating func merge<S: Sequence>(
     _ keysAndValues: __owned S,
     uniquingKeysWith combine: (Value, Value) throws -> Value
   ) rethrows where S.Element == (Key, Value) {
@@ -917,8 +916,8 @@ extension OrderedDictionary {
   ///    number of elements in `keysAndValues`, if `Key` implements high-quality
   ///    hashing.
   @_disfavoredOverload // https://github.com/apple/swift-collections/issues/125
-  @inlinable
-  public __consuming func merging<S: Sequence>(
+
+  __consuming func merging<S: Sequence>(
     _ other: __owned S,
     uniquingKeysWith combine: (Value, Value) throws -> Value
   ) rethrows -> Self where S.Element == (key: Key, value: Value) {
@@ -962,8 +961,8 @@ extension OrderedDictionary {
   /// - Complexity: Expected to be O(`count` + *n*) on average, where *n* is the
   ///    number of elements in `keysAndValues`, if `Key` implements high-quality
   ///    hashing.
-  @inlinable
-  public __consuming func merging<S: Sequence>(
+
+  __consuming func merging<S: Sequence>(
     _ other: __owned S,
     uniquingKeysWith combine: (Value, Value) throws -> Value
   ) rethrows -> Self where S.Element == (Key, Value) {
@@ -985,8 +984,8 @@ extension OrderedDictionary {
   ///    in the same order that they appear in `self`.
   ///
   /// - Complexity: O(`count`)
-  @inlinable
-  public func filter(
+
+  func filter(
     _ isIncluded: (Element) throws -> Bool
   ) rethrows -> Self {
     var result: OrderedDictionary = [:]
@@ -1009,8 +1008,8 @@ extension OrderedDictionary {
   ///   this dictionary, in the same order.
   ///
   /// - Complexity: O(`count`)
-  @inlinable
-  public func mapValues<T>(
+
+  func mapValues<T>(
     _ transform: (Value) throws -> T
   ) rethrows -> OrderedDictionary<Key, T> {
     OrderedDictionary<Key, T>(
@@ -1044,8 +1043,8 @@ extension OrderedDictionary {
   ///   values of this dictionary, in the same order.
   ///
   /// - Complexity: O(`count`)
-  @inlinable
-  public func compactMapValues<T>(
+
+  func compactMapValues<T>(
     _ transform: (Value) throws -> T?
   ) rethrows -> OrderedDictionary<Key, T> {
     var result: OrderedDictionary<Key, T> = [:]

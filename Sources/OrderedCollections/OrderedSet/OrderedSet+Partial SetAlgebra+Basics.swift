@@ -25,8 +25,8 @@ extension OrderedSet {
   /// literal.
   ///
   /// - Complexity: O(1)
-  @inlinable
-  public init() {
+
+  init() {
     __storage = nil
     _elements = []
   }
@@ -42,8 +42,8 @@ extension OrderedSet {
   ///
   /// - Complexity: This operation is expected to perform O(1) comparisons on
   ///    average, provided that `Element` implements high-quality hashing.
-  @inlinable
-  public func contains(_ element: Element) -> Bool {
+
+  func contains(_ element: Element) -> Bool {
     _find_inlined(element).index != nil
   }
 }
@@ -65,9 +65,9 @@ extension OrderedSet {
   ///    Removing the last element only takes (amortized) O(1)
   ///    hashing/comparisons operations, if `Element` implements high quality
   ///    hashing.
-  @inlinable
+
   @discardableResult
-  public mutating func remove(_ member: Element) -> Element? {
+  mutating func remove(_ member: Element) -> Element? {
     let (idx, bucket) = _find(member)
     guard let index = idx else { return nil }
     return _removeExistingMember(at: index, in: bucket)

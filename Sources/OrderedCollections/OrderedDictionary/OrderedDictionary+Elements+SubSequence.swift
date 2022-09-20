@@ -14,14 +14,13 @@ extension OrderedDictionary.Elements {
   ///
   /// Ordered dictionary slices are random access collections that
   /// support efficient key-based lookups.
-  @frozen
-  public struct SubSequence {
+  struct SubSequence {
     @usableFromInline
     internal var _base: OrderedDictionary
     @usableFromInline
     internal var _bounds: Range<Int>
 
-    @inlinable
+  
     @inline(__always)
     internal init(_base: OrderedDictionary, bounds: Range<Int>) {
       self._base = _base
@@ -34,18 +33,18 @@ extension OrderedDictionary.Elements.SubSequence {
   /// A read-only collection view containing the keys in this slice.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var keys: OrderedSet<Key>.SubSequence {
+  var keys: OrderedSet<Key>.SubSequence {
     _base._keys[_bounds]
   }
 
   /// A read-only collection view containing the values in this slice.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var values: OrderedDictionary.Values.SubSequence {
+  var values: OrderedDictionary.Values.SubSequence {
     _base.values[_bounds]
   }
 }
@@ -70,8 +69,8 @@ extension OrderedDictionary.Elements.SubSequence {
   ///
   /// - Complexity: Expected to be O(1) on average, if `Key` implements
   ///    high-quality hashing.
-  @inlinable
-  public func index(forKey key: Key) -> Int? {
+
+  func index(forKey key: Key) -> Int? {
     guard let index = _base.index(forKey: key) else { return nil }
     guard _bounds.contains(index) else { return nil }
     return index
@@ -80,11 +79,10 @@ extension OrderedDictionary.Elements.SubSequence {
 
 extension OrderedDictionary.Elements.SubSequence: Sequence {
   // A type representing the collection’s elements.
-  public typealias Element = OrderedDictionary.Element
+  typealias Element = OrderedDictionary.Element
 
   /// The type that allows iteration over the collection's elements.
-  @frozen
-  public struct Iterator: IteratorProtocol {
+  struct Iterator: IteratorProtocol {
     @usableFromInline
     internal var _base: OrderedDictionary
 
@@ -94,7 +92,7 @@ extension OrderedDictionary.Elements.SubSequence: Sequence {
     @usableFromInline
     internal var _index: Int
 
-    @inlinable
+  
     @inline(__always)
     internal init(_base: OrderedDictionary.Elements.SubSequence) {
       self._base = _base._base
@@ -106,8 +104,8 @@ extension OrderedDictionary.Elements.SubSequence: Sequence {
     /// element exists.
     ///
     /// - Complexity: O(1)
-    @inlinable
-    public mutating func next() -> Element? {
+  
+    mutating func next() -> Element? {
       guard _index < _end else { return nil }
       defer { _index += 1 }
       return (_base._keys[_index], _base._values[_index])
@@ -115,9 +113,9 @@ extension OrderedDictionary.Elements.SubSequence: Sequence {
   }
 
   /// Returns an iterator over the elements of this dictionary slice.
-  @inlinable
+
   @inline(__always)
-  public func makeIterator() -> Iterator {
+  func makeIterator() -> Iterator {
     Iterator(_base: self)
   }
 }
@@ -127,14 +125,14 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   ///
   /// The indices are integer offsets from the start of the original
   /// (unsliced) collection.
-  public typealias Index = Int
+  typealias Index = Int
 
   /// The type that represents the indices that are valid for subscripting an
   /// ordered dictionary, in ascending order.
-  public typealias Indices = Range<Int>
+  typealias Indices = Range<Int>
 
   /// Ordered dictionary subsequences are self-slicing.
-  public typealias SubSequence = Self
+  typealias SubSequence = Self
 
   /// The position of the first element in a nonempty ordered dictionary slice.
   ///
@@ -142,25 +140,25 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   /// don't have a `startIndex` with an offset of zero.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var startIndex: Int { _bounds.lowerBound }
+  var startIndex: Int { _bounds.lowerBound }
 
   /// The "past the end" position---that is, the position one greater
   /// than the last valid subscript argument.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var endIndex: Int { _bounds.upperBound }
+  var endIndex: Int { _bounds.upperBound }
 
   /// The indices that are valid for subscripting the collection,
   /// in ascending order.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var indices: Range<Int> { _bounds }
+  var indices: Range<Int> { _bounds }
 
   /// Returns the position immediately after the given index.
   ///
@@ -172,9 +170,9 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   /// - Returns: The index immediately after `i`.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public func index(after i: Int) -> Int { i + 1 }
+  func index(after i: Int) -> Int { i + 1 }
 
   /// Returns the position immediately before the given index.
   ///
@@ -186,9 +184,9 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   /// - Returns: The index immediately before `i`.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public func index(before i: Int) -> Int { i - 1 }
+  func index(before i: Int) -> Int { i - 1 }
 
   /// Replaces the given index with its successor.
   ///
@@ -198,9 +196,9 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   /// - Parameter i: A valid index of the collection.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public func formIndex(after i: inout Int) { i += 1 }
+  func formIndex(after i: inout Int) { i += 1 }
 
   /// Replaces the given index with its predecessor.
   ///
@@ -210,9 +208,9 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   /// - Parameter i: A valid index of the collection.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public func formIndex(before i: inout Int) { i -= 1 }
+  func formIndex(before i: inout Int) { i -= 1 }
 
   /// Returns an index that is the specified distance from the given index.
   ///
@@ -229,9 +227,9 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   ///   the result of `abs(distance)` calls to `index(before:)`.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public func index(_ i: Int, offsetBy distance: Int) -> Int {
+  func index(_ i: Int, offsetBy distance: Int) -> Int {
     i + distance
   }
 
@@ -255,9 +253,9 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   ///   case, the method returns `nil`.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public func index(
+  func index(
     _ i: Int,
     offsetBy distance: Int,
     limitedBy limit: Int
@@ -275,9 +273,9 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   /// - Returns: The distance between `start` and `end`.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public func distance(from start: Int, to end: Int) -> Int {
+  func distance(from start: Int, to end: Int) -> Int {
     end - start
   }
 
@@ -287,8 +285,8 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   ///   greater than or equal to `startIndex` and less than `endIndex`.
   ///
   /// - Complexity: O(1)
-  @inlinable
-  public subscript(position: Int) -> Element {
+
+  subscript(position: Int) -> Element {
     precondition(_bounds.contains(position), "Index out of range")
     return (_base._keys[position], _base._values[position])
   }
@@ -305,8 +303,8 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   /// - Parameter bounds: A range of valid indices in the dictionary.
   ///
   /// - Complexity: O(1)
-  @inlinable
-  public subscript(bounds: Range<Int>) -> SubSequence {
+
+  subscript(bounds: Range<Int>) -> SubSequence {
     precondition(
       bounds.lowerBound >= _bounds.lowerBound
         && bounds.upperBound <= _bounds.upperBound,
@@ -317,14 +315,14 @@ extension OrderedDictionary.Elements.SubSequence: RandomAccessCollection {
   /// A Boolean value indicating whether the collection is empty.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var isEmpty: Bool { _bounds.isEmpty }
+  var isEmpty: Bool { _bounds.isEmpty }
 
   /// The number of elements in the dictionary.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public var count: Int { _bounds.count }
+  var count: Int { _bounds.count }
 }

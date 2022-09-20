@@ -12,7 +12,7 @@
 
 // Loosely adapted from https://github.com/apple/swift/tree/main/stdlib/private/StdlibCollectionUnittest
 
-public enum UnderestimatedCountBehavior {
+enum UnderestimatedCountBehavior {
   /// Return the actual number of elements.
   case precise
 
@@ -44,13 +44,13 @@ public enum UnderestimatedCountBehavior {
 /// narrow way possible.
 ///
 /// This sequence is consumed when its iterator is advanced.
-public struct MinimalSequence<T>: Sequence, CustomDebugStringConvertible {
-  public let timesMakeIteratorCalled = ResettableValue(0)
+struct MinimalSequence<T>: Sequence, CustomDebugStringConvertible {
+  let timesMakeIteratorCalled = ResettableValue(0)
 
   internal let _sharedState: _MinimalIteratorSharedState<T>
   internal let _isContiguous: Bool
 
-  public init<S: Sequence>(
+  init<S: Sequence>(
     elements: S,
     underestimatedCount: UnderestimatedCountBehavior = .value(0),
     isContiguous: Bool = false
@@ -73,20 +73,20 @@ public struct MinimalSequence<T>: Sequence, CustomDebugStringConvertible {
     }
   }
 
-  public func makeIterator() -> MinimalIterator<T> {
+  func makeIterator() -> MinimalIterator<T> {
     timesMakeIteratorCalled.value += 1
     return MinimalIterator(_sharedState)
   }
 
-  public var underestimatedCount: Int {
+  var underestimatedCount: Int {
     return Swift.max(0, self._sharedState.underestimatedCount - self._sharedState.i)
   }
 
-  public var debugDescription: String {
+  var debugDescription: String {
     return "MinimalSequence(\(_sharedState.data[_sharedState.i...]))"
   }
 
-  public func withContiguousStorageIfAvailable<R>(
+  func withContiguousStorageIfAvailable<R>(
     _ body: (UnsafeBufferPointer<T>) throws -> R
   ) rethrows -> R? {
     guard _isContiguous else { return nil }

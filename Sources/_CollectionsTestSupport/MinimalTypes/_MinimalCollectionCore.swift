@@ -15,7 +15,7 @@ struct _MinimalCollectionCore<Element> {
   var elements: [Element]
   var underestimatedCount: Int
 
-  public init<S: Sequence>(
+  init<S: Sequence>(
     context: TestContext,
     elements: S,
     underestimatedCount: UnderestimatedCountBehavior? = nil
@@ -23,7 +23,7 @@ struct _MinimalCollectionCore<Element> {
     self.init(context: context, elements: Array(elements), underestimatedCount: underestimatedCount)
   }
 
-  public init(
+  init(
     context: TestContext,
     elements: [Element],
     underestimatedCount: UnderestimatedCountBehavior? = nil
@@ -145,13 +145,13 @@ extension _MinimalCollectionCore {
     index._offset -= 1
   }
 
-  public func distance(from start: MinimalIndex, to end: MinimalIndex) -> Int {
+  func distance(from start: MinimalIndex, to end: MinimalIndex) -> Int {
     assertValidIndex(start)
     assertValidIndex(end)
     return end._offset - start._offset
   }
 
-  public func index(
+  func index(
     _ index: MinimalIndex,
     offsetBy n: Int
   ) -> MinimalIndex {
@@ -179,7 +179,7 @@ extension _MinimalCollectionCore {
       "Index out of bounds", trapping: true)
   }
 
-  public func _failEarlyRangeCheck(
+  func _failEarlyRangeCheck(
     _ range: Range<MinimalIndex>,
     bounds: Range<MinimalIndex>
   ) {
@@ -304,7 +304,7 @@ extension _MinimalCollectionCore {
     elements.removeFirst(n)
   }
 
-  public mutating func _customRemoveLast() -> Element? {
+  mutating func _customRemoveLast() -> Element? {
     expectTrue(
       !isEmpty,
       "Can't remove last element of an empty collection",
@@ -314,7 +314,7 @@ extension _MinimalCollectionCore {
     return elements.removeLast()
   }
 
-  public mutating func _customRemoveLast(_ n: Int) -> Bool {
+  mutating func _customRemoveLast(_ n: Int) -> Bool {
     expectTrue(
       n >= 0,
       "Can't remove a negative number of elements",

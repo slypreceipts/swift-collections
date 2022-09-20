@@ -25,8 +25,8 @@ extension OrderedSet: ExpressibleByArrayLiteral {
   ///
   /// - Complexity: O(`elements.count`) if `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public init(arrayLiteral elements: Element...) {
+
+  init(arrayLiteral elements: Element...) {
     self.init(elements)
   }
 }

@@ -15,14 +15,14 @@ import XCTest
 open class CollectionTestCase: XCTestCase {
   internal var _context: TestContext?
 
-  public var context: TestContext { _context! }
+  var context: TestContext { _context! }
 
-  public override func setUp() {
+  open override func setUp() {
     super.setUp()
     _context = TestContext.pushNew()
   }
 
-  public override func tearDown() {
+  open override func tearDown() {
     TestContext.pop(context)
     _context = nil
     super.tearDown()

@@ -12,26 +12,26 @@
 
 // Loosely adapted from https://github.com/apple/swift/tree/main/stdlib/private/StdlibUnittest
 
-public class ResettableValue<Value> {
-  public init(_ value: Value) {
+class ResettableValue<Value> {
+  init(_ value: Value) {
     self.defaultValue = value
     self.value = value
   }
 
-  public func reset() {
+  func reset() {
     value = defaultValue
   }
 
-  public let defaultValue: Value
-  public var value: Value
+  let defaultValue: Value
+  var value: Value
 }
 
 extension ResettableValue where Value: Strideable {
-  public func increment(by delta: Value.Stride = 1) {
+  func increment(by delta: Value.Stride = 1) {
     value = value.advanced(by: delta)
   }
 }
 
 extension ResettableValue: CustomStringConvertible {
-  public var description: String { "\(value)" }
+  var description: String { "\(value)" }
 }

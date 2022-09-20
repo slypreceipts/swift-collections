@@ -26,12 +26,12 @@
 ///          }
 ///        }
 ///      }
-public class LifetimeTracked<Payload> {
-  public let tracker: LifetimeTracker
+class LifetimeTracked<Payload> {
+  let tracker: LifetimeTracker
   internal var serialNumber: Int = 0
-  public let payload: Payload
+  let payload: Payload
 
-  public init(_ payload: Payload, for tracker: LifetimeTracker) {
+  init(_ payload: Payload, for tracker: LifetimeTracker) {
     tracker.instances += 1
     tracker._nextSerialNumber += 1
     self.tracker = tracker
@@ -47,31 +47,31 @@ public class LifetimeTracked<Payload> {
 }
 
 extension LifetimeTracked: CustomStringConvertible {
-  public var description: String {
+  var description: String {
     return "\(payload)"
   }
 }
 
 extension LifetimeTracked: Equatable where Payload: Equatable {
-  public static func == (left: LifetimeTracked, right: LifetimeTracked) -> Bool {
+  static func == (left: LifetimeTracked, right: LifetimeTracked) -> Bool {
     return left.payload == right.payload
   }
 }
 
 extension LifetimeTracked: Hashable where Payload: Hashable {
-  public func hash(into hasher: inout Hasher) {
+  func hash(into hasher: inout Hasher) {
     hasher.combine(payload)
   }
 }
 
 extension LifetimeTracked: Comparable where Payload: Comparable {
-  public static func < (left: LifetimeTracked, right: LifetimeTracked) -> Bool {
+  static func < (left: LifetimeTracked, right: LifetimeTracked) -> Bool {
     return left.payload < right.payload
   }
 }
 
 extension LifetimeTracked: Encodable where Payload: Encodable {
-  public func encode(to encoder: Encoder) throws {
+  func encode(to encoder: Encoder) throws {
     try payload.encode(to: encoder)
   }
 }

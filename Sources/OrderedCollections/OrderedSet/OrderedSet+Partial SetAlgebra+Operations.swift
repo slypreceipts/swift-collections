@@ -33,8 +33,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public mutating func formUnion(_ other: __owned Self) {
+
+  mutating func formUnion(_ other: __owned Self) {
     append(contentsOf: other)
   }
 
@@ -51,8 +51,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count` + `other.count`) on average,
   ///    if `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func union(_ other: __owned Self) -> Self {
+
+  __consuming func union(_ other: __owned Self) -> Self {
     var result = self
     result.formUnion(other)
     return result
@@ -74,9 +74,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count` + `other.count`) on average,
   ///    if `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public mutating func formUnion(_ other: __owned UnorderedView) {
+  mutating func formUnion(_ other: __owned UnorderedView) {
     formUnion(other._base)
   }
 
@@ -93,9 +93,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count` + `other.count`) on average,
   ///    if `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public __consuming func union(_ other: __owned UnorderedView) -> Self {
+  __consuming func union(_ other: __owned UnorderedView) -> Self {
     union(other._base)
   }
 
@@ -113,8 +113,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count` + `other.count`) on average,
   ///    if `Element` implements high-quality hashing.
-  @inlinable
-  public mutating func formUnion<S: Sequence>(
+
+  mutating func formUnion<S: Sequence>(
     _ other: __owned S
   ) where S.Element == Element {
     append(contentsOf: other)
@@ -133,8 +133,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count` + `other.count`) on average,
   ///    if `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func union<S: Sequence>(
+
+  __consuming func union<S: Sequence>(
     _ other: __owned S
   ) -> Self where S.Element == Element {
     var result = self
@@ -157,8 +157,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public __consuming func intersection(_ other: Self) -> Self {
+
+  __consuming func intersection(_ other: Self) -> Self {
     var result = Self()
     for item in self {
       if other.contains(item) {
@@ -180,8 +180,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public mutating func formIntersection(_ other: Self) {
+
+  mutating func formIntersection(_ other: Self) {
     self = self.intersection(other)
   }
 
@@ -200,9 +200,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public __consuming func intersection(_ other: UnorderedView) -> Self {
+  __consuming func intersection(_ other: UnorderedView) -> Self {
     intersection(other._base)
   }
 
@@ -217,9 +217,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public mutating func formIntersection(_ other: UnorderedView) {
+  mutating func formIntersection(_ other: UnorderedView) {
     formIntersection(other._base)
   }
 
@@ -235,8 +235,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(*n*) on average where *n* is the number of
   ///    elements in `other`, if `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func intersection<S: Sequence>(
+
+  __consuming func intersection<S: Sequence>(
     _ other: S
   ) -> Self where S.Element == Element {
     _UnsafeBitset.withTemporaryBitset(capacity: self.count) { bitset in
@@ -261,8 +261,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(*n*) on average where *n* is the number of
   ///    elements in `other`, if `Element` implements high-quality hashing.
-  @inlinable
-  public mutating func formIntersection<S: Sequence>(
+
+  mutating func formIntersection<S: Sequence>(
     _ other: S
   ) where S.Element == Element {
     self = self.intersection(other)
@@ -286,8 +286,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func symmetricDifference(_ other: __owned Self) -> Self {
+
+  __consuming func symmetricDifference(_ other: __owned Self) -> Self {
     _UnsafeBitset.withTemporaryBitset(capacity: self.count) { bitset1 in
       _UnsafeBitset.withTemporaryBitset(capacity: other.count) { bitset2 in
         bitset1.insertAll(upTo: self.count)
@@ -328,8 +328,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public mutating func formSymmetricDifference(_ other: __owned Self) {
+
+  mutating func formSymmetricDifference(_ other: __owned Self) {
     self = self.symmetricDifference(other)
   }
 
@@ -351,9 +351,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public __consuming func symmetricDifference(
+  __consuming func symmetricDifference(
     _ other: __owned UnorderedView
   ) -> Self {
     symmetricDifference(other._base)
@@ -374,9 +374,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public mutating func formSymmetricDifference(_ other: __owned UnorderedView) {
+  mutating func formSymmetricDifference(_ other: __owned UnorderedView) {
     formSymmetricDifference(other._base)
   }
 
@@ -397,8 +397,8 @@ extension OrderedSet {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average where *n* is
   ///    the number of elements in `other`, if `Element` implements high-quality
   ///    hashing.
-  @inlinable
-  public __consuming func symmetricDifference<S: Sequence>(
+
+  __consuming func symmetricDifference<S: Sequence>(
     _ other: __owned S
   ) -> Self where S.Element == Element {
     _UnsafeBitset.withTemporaryBitset(capacity: self.count) { bitset in
@@ -436,8 +436,8 @@ extension OrderedSet {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average where *n* is
   ///    the number of elements in `other`, if `Element` implements high-quality
   ///    hashing.
-  @inlinable
-  public mutating func formSymmetricDifference<S: Sequence>(
+
+  mutating func formSymmetricDifference<S: Sequence>(
     _ other: __owned S
   ) where S.Element == Element {
     self = self.symmetricDifference(other)
@@ -460,9 +460,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public __consuming func subtracting(_ other: Self) -> Self {
+  __consuming func subtracting(_ other: Self) -> Self {
     _subtracting(other)
   }
 
@@ -477,9 +477,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public mutating func subtract(_ other: Self) {
+  mutating func subtract(_ other: Self) {
     self = subtracting(other)
   }
 
@@ -500,9 +500,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public __consuming func subtracting(_ other: UnorderedView) -> Self {
+  __consuming func subtracting(_ other: UnorderedView) -> Self {
     subtracting(other._base)
   }
 
@@ -517,9 +517,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public mutating func subtract(_ other: UnorderedView) {
+  mutating func subtract(_ other: UnorderedView) {
     subtract(other._base)
   }
 
@@ -537,9 +537,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public __consuming func subtracting<S: Sequence>(
+  __consuming func subtracting<S: Sequence>(
     _ other: S
   ) -> Self where S.Element == Element {
     _subtracting(other)
@@ -556,15 +556,15 @@ extension OrderedSet {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average, where *n*
   ///    is the number of elements in `other`, if `Element` implements
   ///    high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public mutating func subtract<S: Sequence>(
+  mutating func subtract<S: Sequence>(
     _ other: S
   ) where S.Element == Element {
     self = _subtracting(other)
   }
 
-  @inlinable
+
   __consuming func _subtracting<S: Sequence>(
     _ other: S
   ) -> Self where S.Element == Element {

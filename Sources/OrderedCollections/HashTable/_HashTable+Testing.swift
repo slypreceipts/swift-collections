@@ -10,7 +10,8 @@
 //===----------------------------------------------------------------------===//
 
 extension _HashTable.Bucket: CustomStringConvertible {
-  public var description: String { "Bucket(@\(offset))"}
+  @usableFromInline
+  var description: String { "Bucket(@\(offset))"}
 }
 
 extension _UnsafeHashTable {

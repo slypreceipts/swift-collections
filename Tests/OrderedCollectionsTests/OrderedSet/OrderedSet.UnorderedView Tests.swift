@@ -10,8 +10,8 @@
 //===----------------------------------------------------------------------===//
 
 import XCTest
-@_spi(Testing) import OrderedCollections
-import _CollectionsTestSupport
+@testable @_spi(Testing) import OrderedCollections
+@testable import _CollectionsTestSupport
 
 class OrderedSetUnorderedViewTests: CollectionTestCase {
   func test_unordered_insert() {

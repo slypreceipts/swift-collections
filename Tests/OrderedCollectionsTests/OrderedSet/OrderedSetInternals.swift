@@ -9,8 +9,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import _CollectionsTestSupport
-@_spi(Testing) import OrderedCollections
+@testable import _CollectionsTestSupport
+@testable @_spi(Testing) import OrderedCollections
 
 struct OrderedSetLayout: Hashable, CustomStringConvertible {
   let scale: Int

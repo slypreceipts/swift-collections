@@ -10,7 +10,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-public final class Box<T> {
-  public init(_ value: T) { self.value = value }
-  public var value: T
+final class Box<T> {
+  init(_ value: T) { self.value = value }
+  var value: T
 }

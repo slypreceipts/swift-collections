@@ -14,8 +14,8 @@ extension Deque: Hashable where Element: Hashable {
   /// given hasher.
   ///
   /// Complexity: O(`count`)
-  @inlinable
-  public func hash(into hasher: inout Hasher) {
+
+  func hash(into hasher: inout Hasher) {
     hasher.combine(count) // discriminator
     for element in self {
       hasher.combine(element)

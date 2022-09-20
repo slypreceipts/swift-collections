@@ -10,7 +10,7 @@
 //===----------------------------------------------------------------------===//
 
 extension Collection {
-  @inlinable
+
   @inline(__always)
   internal func _rebased<Element>() -> UnsafeBufferPointer<Element>
   where Self == UnsafeBufferPointer<Element>.SubSequence {
@@ -19,7 +19,7 @@ extension Collection {
 }
 
 extension Collection {
-  @inlinable
+
   @inline(__always)
   internal func _rebased<Element>() -> UnsafeMutableBufferPointer<Element>
   where Self == UnsafeMutableBufferPointer<Element>.SubSequence {
@@ -28,7 +28,7 @@ extension Collection {
 }
 
 extension UnsafeMutableBufferPointer {
-  @inlinable
+
   @inline(__always)
   internal func _initialize(from source: UnsafeBufferPointer<Element>) {
     assert(source.count == count)
@@ -36,7 +36,7 @@ extension UnsafeMutableBufferPointer {
     baseAddress!.initialize(from: source.baseAddress!, count: source.count)
   }
 
-  @inlinable
+
   @inline(__always)
   internal func _initialize<C: Collection>(
     from elements: C
@@ -47,14 +47,14 @@ extension UnsafeMutableBufferPointer {
     precondition(it.next() == nil)
   }
 
-  @inlinable
+
   @inline(__always)
   internal func _deinitializeAll() {
     guard count > 0 else { return }
     baseAddress!.deinitialize(count: count)
   }
 
-  @inlinable
+
   internal func _assign<C: Collection>(
     from replacement: C
   ) where C.Element == Element {

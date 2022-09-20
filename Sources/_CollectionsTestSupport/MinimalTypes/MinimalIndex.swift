@@ -14,7 +14,7 @@
 
 import XCTest
 
-public struct MinimalIndex {
+struct MinimalIndex {
   internal let _state: _CollectionState
   internal let _id: Int
   internal var _offset: Int
@@ -26,26 +26,26 @@ public struct MinimalIndex {
     precondition(_offset >= 0 && _offset <= state.count)
   }
 
-  public var offset: Int { _offset }
-  public var context: TestContext { _state.context }
+  var offset: Int { _offset }
+  var context: TestContext { _state.context }
 }
 
 extension MinimalIndex: Equatable {
-  public static func == (left: Self, right: Self) -> Bool {
+  static func == (left: Self, right: Self) -> Bool {
     left._assertCompatible(with: right)
     return left._offset == right._offset
   }
 }
 
 extension MinimalIndex: Comparable {
-  public static func < (left: Self, right: Self) -> Bool {
+  static func < (left: Self, right: Self) -> Bool {
     left._assertCompatible(with: right)
     return left._offset < right._offset
   }
 }
 
 extension MinimalIndex: CustomStringConvertible {
-  public var description: String {
+  var description: String {
     return "MinimalIndex(offset: \(_offset), state: \(_state.id))"
   }
 }

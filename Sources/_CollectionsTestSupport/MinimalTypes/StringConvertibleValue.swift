@@ -10,25 +10,25 @@
 //
 //===----------------------------------------------------------------------===//
 
-public struct StringConvertibleValue {
-  public var value: Int
-  public init(_ value: Int) { self.value = value }
+struct StringConvertibleValue {
+  var value: Int
+  init(_ value: Int) { self.value = value }
 }
 
 extension StringConvertibleValue: ExpressibleByIntegerLiteral {
-  public init(integerLiteral value: Int) {
+  init(integerLiteral value: Int) {
     self.init(value)
   }
 }
 
 extension StringConvertibleValue: CustomStringConvertible {
-  public var description: String {
+  var description: String {
     "description(\(value))"
   }
 }
 
 extension StringConvertibleValue: CustomDebugStringConvertible {
-  public var debugDescription: String {
+  var debugDescription: String {
     "debugDescription(\(value))"
   }
 }

@@ -16,8 +16,8 @@ extension OrderedDictionary: Equatable where Value: Equatable {
   /// key-value pairs, in the same order.
   ///
   /// - Complexity: O(`min(left.count, right.count)`)
-  @inlinable
-  public static func ==(left: Self, right: Self) -> Bool {
+
+  static func ==(left: Self, right: Self) -> Bool {
     left._keys == right._keys && left._values == right._values
   }
 }

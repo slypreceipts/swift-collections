@@ -12,12 +12,12 @@
 extension OrderedDictionary {
   #if COLLECTIONS_INTERNAL_CHECKS
   @inline(never) @_effects(releasenone)
-  public func _checkInvariants() {
+  func _checkInvariants() {
     precondition(_keys.count == _values.count)
     self._keys._checkInvariants()
   }
   #else
   @inline(__always) @inlinable
-  public func _checkInvariants() {}
+  func _checkInvariants() {}
   #endif // COLLECTIONS_INTERNAL_CHECKS
 }

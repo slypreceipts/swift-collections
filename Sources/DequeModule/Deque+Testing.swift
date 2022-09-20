@@ -9,7 +9,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-// This file contains exported but non-public entry points to support clear box
+// This file contains exported but non-entry points to support clear box
 // testing.
 
 extension Deque {
@@ -22,8 +22,7 @@ extension Deque {
   ///
   /// This property isn't intended to be used outside of `Deque`'s own test
   /// target.
-  @_spi(Testing)
-  public var _capacity: Int {
+  var _capacity: Int {
     _storage.capacity
   }
 
@@ -33,16 +32,14 @@ extension Deque {
   ///
   /// This property isn't intended to be used outside of `Deque`'s own test
   /// target.
-  @_spi(Testing)
-  public var _startSlot: Int {
+  var _startSlot: Int {
     _storage.startSlot.position
   }
 
   /// Constructs a deque instance of the specified contents and layout. Exposed
-  /// as public to allow exhaustive input/output tests for `Deque`'s members.
+  /// as to allow exhaustive input/output tests for `Deque`'s members.
   /// This isn't intended to be used outside of `Deque`'s own test target.
-  @_spi(Testing)
-  public init<S: Sequence>(
+  init<S: Sequence>(
     _capacity capacity: Int,
     startSlot: Int,
     contents: S

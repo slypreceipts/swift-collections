@@ -13,21 +13,21 @@
 // Loosely adapted from https://github.com/apple/swift/tree/main/stdlib/private/StdlibCollectionUnittest
 
 /// A minimal implementation of `RandomAccessCollection & MutableCollection` with extra checks.
-public struct MinimalMutableRandomAccessCollection<Element> {
+struct MinimalMutableRandomAccessCollection<Element> {
   internal var _core: _MinimalCollectionCore<Element>
 
-  public let timesMakeIteratorCalled = ResettableValue(0)
-  public let timesUnderestimatedCountCalled = ResettableValue(0)
-  public let timesRangeChecksCalled = ResettableValue(0)
-  public let timesIndexNavigationCalled = ResettableValue(0)
-  public let timesSubscriptGetterCalled = ResettableValue(0)
-  public let timesSubscriptSetterCalled = ResettableValue(0)
-  public let timesRangeSubscriptGetterCalled = ResettableValue(0)
-  public let timesRangeSubscriptSetterCalled = ResettableValue(0)
-  public let timesSwapCalled = ResettableValue(0)
-  public let timesPartitionCalled = ResettableValue(0)
+  let timesMakeIteratorCalled = ResettableValue(0)
+  let timesUnderestimatedCountCalled = ResettableValue(0)
+  let timesRangeChecksCalled = ResettableValue(0)
+  let timesIndexNavigationCalled = ResettableValue(0)
+  let timesSubscriptGetterCalled = ResettableValue(0)
+  let timesSubscriptSetterCalled = ResettableValue(0)
+  let timesRangeSubscriptGetterCalled = ResettableValue(0)
+  let timesRangeSubscriptSetterCalled = ResettableValue(0)
+  let timesSwapCalled = ResettableValue(0)
+  let timesPartitionCalled = ResettableValue(0)
 
-  public init<S: Sequence>(
+  init<S: Sequence>(
     _ elements: S,
     context: TestContext = TestContext.current,
     underestimatedCount: UnderestimatedCountBehavior = .value(0)
@@ -41,45 +41,45 @@ public struct MinimalMutableRandomAccessCollection<Element> {
 }
 
 extension MinimalMutableRandomAccessCollection: Sequence {
-  public typealias Iterator = MinimalIterator<Element>
+  typealias Iterator = MinimalIterator<Element>
 
-  public func makeIterator() -> MinimalIterator<Element> {
+  func makeIterator() -> MinimalIterator<Element> {
     timesMakeIteratorCalled.increment()
     return MinimalIterator(_core.elements)
   }
 
-  public var underestimatedCount: Int {
+  var underestimatedCount: Int {
     timesUnderestimatedCountCalled.increment()
     return _core.underestimatedCount
   }
 }
 
 extension MinimalMutableRandomAccessCollection: RandomAccessCollection {
-  public typealias Index = MinimalIndex
-  public typealias SubSequence = Slice<Self>
-  public typealias Indices = DefaultIndices<Self>
+  typealias Index = MinimalIndex
+  typealias SubSequence = Slice<Self>
+  typealias Indices = DefaultIndices<Self>
 
-  public var startIndex: MinimalIndex {
+  var startIndex: MinimalIndex {
     timesIndexNavigationCalled.increment()
     return _core.startIndex
   }
 
-  public var endIndex: MinimalIndex {
+  var endIndex: MinimalIndex {
     timesIndexNavigationCalled.increment()
     return _core.endIndex
   }
 
-  public var isEmpty: Bool {
+  var isEmpty: Bool {
     timesIndexNavigationCalled.increment()
     return _core.isEmpty
   }
 
-  public var count: Int {
+  var count: Int {
     timesIndexNavigationCalled.increment()
     return _core.count
   }
 
-  public func _failEarlyRangeCheck(
+  func _failEarlyRangeCheck(
     _ index: MinimalIndex,
     bounds: Range<MinimalIndex>
   ) {
@@ -87,7 +87,7 @@ extension MinimalMutableRandomAccessCollection: RandomAccessCollection {
     _core._failEarlyRangeCheck(index, bounds: bounds)
   }
 
-  public func _failEarlyRangeCheck(
+  func _failEarlyRangeCheck(
     _ range: Range<MinimalIndex>,
     bounds: Range<MinimalIndex>
   ) {
@@ -95,28 +95,28 @@ extension MinimalMutableRandomAccessCollection: RandomAccessCollection {
     _core._failEarlyRangeCheck(range, bounds: bounds)
   }
 
-  public func index(after i: MinimalIndex) -> MinimalIndex {
+  func index(after i: MinimalIndex) -> MinimalIndex {
     timesIndexNavigationCalled.increment()
     return _core.index(after: i)
   }
 
-  public func index(before i: MinimalIndex) -> MinimalIndex {
+  func index(before i: MinimalIndex) -> MinimalIndex {
     timesIndexNavigationCalled.increment()
     return _core.index(before: i)
   }
 
-  public func distance(from start: MinimalIndex, to end: MinimalIndex)
+  func distance(from start: MinimalIndex, to end: MinimalIndex)
     -> Int {
     timesIndexNavigationCalled.increment()
     return _core.distance(from: start, to: end)
   }
 
-  public func index(_ i: Index, offsetBy n: Int) -> Index {
+  func index(_ i: Index, offsetBy n: Int) -> Index {
     timesIndexNavigationCalled.increment()
     return _core.index(i, offsetBy: n)
   }
 
-  public subscript(i: MinimalIndex) -> Element {
+  subscript(i: MinimalIndex) -> Element {
     get {
       timesSubscriptGetterCalled.increment()
       return _core[i]
@@ -127,7 +127,7 @@ extension MinimalMutableRandomAccessCollection: RandomAccessCollection {
     }
   }
 
-  public subscript(bounds: Range<MinimalIndex>) -> SubSequence {
+  subscript(bounds: Range<MinimalIndex>) -> SubSequence {
     get {
       timesRangeSubscriptGetterCalled.increment()
       _core.assertValid(bounds)
@@ -152,7 +152,7 @@ extension MinimalMutableRandomAccessCollection: RandomAccessCollection {
 }
 
 extension MinimalMutableRandomAccessCollection: MutableCollection {
-  public mutating func partition(
+  mutating func partition(
     by belongsInSecondPartition: (Element) throws -> Bool
   ) rethrows -> Index {
     timesPartitionCalled.increment()
@@ -160,7 +160,7 @@ extension MinimalMutableRandomAccessCollection: MutableCollection {
     return _core.index(at: pivot)
   }
 
-  public mutating func swapAt(_ i: Index, _ j: Index) {
+  mutating func swapAt(_ i: Index, _ j: Index) {
     _core.assertValidIndexBeforeEnd(i)
     _core.assertValidIndexBeforeEnd(j)
     timesSwapCalled.increment()
@@ -168,13 +168,13 @@ extension MinimalMutableRandomAccessCollection: MutableCollection {
     // Don't invalidate indices.
   }
 
-  public mutating func _withUnsafeMutableBufferPointerIfSupported<R>(
+  mutating func _withUnsafeMutableBufferPointerIfSupported<R>(
     _ body: (inout UnsafeMutableBufferPointer<Element>) throws -> R
   ) rethrows -> R? {
     return nil
   }
 
-  public mutating func withContiguousMutableStorageIfAvailable<R>(
+  mutating func withContiguousMutableStorageIfAvailable<R>(
     _ body: (inout UnsafeMutableBufferPointer<Element>) throws -> R
   ) rethrows -> R? {
     return nil

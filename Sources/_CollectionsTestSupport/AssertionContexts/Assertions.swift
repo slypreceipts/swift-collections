@@ -12,7 +12,7 @@
 
 import XCTest
 
-public func expectFailure(
+func expectFailure(
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
   file: StaticString = #file,
@@ -47,7 +47,7 @@ internal func _expectFailure(
   }
 }
 
-public func expectTrue(
+func expectTrue(
   _ value: Bool,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -60,7 +60,7 @@ public func expectTrue(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectFalse(
+func expectFalse(
   _ value: Bool,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -73,7 +73,7 @@ public func expectFalse(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectNil<T>(
+func expectNil<T>(
   _ value: Optional<T>,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -86,7 +86,7 @@ public func expectNil<T>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectNotNil<T>(
+func expectNotNil<T>(
   _ value: Optional<T>,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -99,7 +99,7 @@ public func expectNotNil<T>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectNotNil<T>(
+func expectNotNil<T>(
   _ value: Optional<T>,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -116,7 +116,7 @@ public func expectNotNil<T>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectIdentical<T: AnyObject>(
+func expectIdentical<T: AnyObject>(
   _ left: T?, _ right: T?,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -131,7 +131,7 @@ public func expectIdentical<T: AnyObject>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectNotIdentical<T: AnyObject>(
+func expectNotIdentical<T: AnyObject>(
   _ left: T, _ right: T,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -144,7 +144,7 @@ public func expectNotIdentical<T: AnyObject>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectEquivalent<A, B>(
+func expectEquivalent<A, B>(
   _ left: A, _ right: B,
   by areEquivalent: (A, B) -> Bool,
   _ message: @autoclosure () -> String = "",
@@ -158,7 +158,7 @@ public func expectEquivalent<A, B>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectEquivalent<A, B>(
+func expectEquivalent<A, B>(
   _ left: A?, _ right: B?,
   by areEquivalent: (A, B) -> Bool,
   _ message: @autoclosure () -> String = "",
@@ -175,7 +175,7 @@ public func expectEquivalent<A, B>(
 }
 
 
-public func expectEqual<T: Equatable>(
+func expectEqual<T: Equatable>(
   _ left: T, _ right: T,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -188,7 +188,7 @@ public func expectEqual<T: Equatable>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectEqual<Key: Equatable, Value: Equatable>(
+func expectEqual<Key: Equatable, Value: Equatable>(
   _ left: (key: Key, value: Value), _ right: (key: Key, value: Value),
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -202,7 +202,7 @@ public func expectEqual<Key: Equatable, Value: Equatable>(
 }
 
 
-public func expectEqual<T: Equatable>(
+func expectEqual<T: Equatable>(
   _ left: T?, _ right: T?,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -217,7 +217,7 @@ public func expectEqual<T: Equatable>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectNotEqual<T: Equatable>(
+func expectNotEqual<T: Equatable>(
   _ left: T, _ right: T,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -230,7 +230,7 @@ public func expectNotEqual<T: Equatable>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectLessThan<T: Comparable>(
+func expectLessThan<T: Comparable>(
   _ left: T, _ right: T,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -243,7 +243,7 @@ public func expectLessThan<T: Comparable>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectLessThanOrEqual<T: Comparable>(
+func expectLessThanOrEqual<T: Comparable>(
   _ left: T, _ right: T,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -256,7 +256,7 @@ public func expectLessThanOrEqual<T: Comparable>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectGreaterThan<T: Comparable>(
+func expectGreaterThan<T: Comparable>(
   _ left: T, _ right: T,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -269,7 +269,7 @@ public func expectGreaterThan<T: Comparable>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectGreaterThanOrEqual<T: Comparable>(
+func expectGreaterThanOrEqual<T: Comparable>(
   _ left: T, _ right: T,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -284,7 +284,7 @@ public func expectGreaterThanOrEqual<T: Comparable>(
 
 /// Check if `left` and `right` contain equal elements in the same order.
 /// Note: `left` and `right` must be restartable sequences.
-public func expectEqualElements<S1: Sequence, S2: Sequence>(
+func expectEqualElements<S1: Sequence, S2: Sequence>(
   _ left: S1,
   _ right: S2,
   _ message: @autoclosure () -> String = "",
@@ -300,7 +300,7 @@ public func expectEqualElements<S1: Sequence, S2: Sequence>(
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectEquivalentElements<S1: Sequence, S2: Sequence>(
+func expectEquivalentElements<S1: Sequence, S2: Sequence>(
   _ left: S1,
   _ right: S2,
   by areEquivalent: (S1.Element, S2.Element) -> Bool,
@@ -319,7 +319,7 @@ public func expectEquivalentElements<S1: Sequence, S2: Sequence>(
 
 /// Check if `left` and `right` contain equal elements in the same order.
 /// Note: `left` and `right` must be restartable sequences.
-public func expectEqualElements<
+func expectEqualElements<
   S1: Sequence, S2: Sequence,
   A: Equatable, B: Equatable
 >(
@@ -342,7 +342,7 @@ public func expectEqualElements<
     message, trapping: trapping, file: file, line: line)
 }
 
-public func expectMonotonicallyIncreasing<S: Sequence>(
+func expectMonotonicallyIncreasing<S: Sequence>(
   _ items: S,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -363,7 +363,7 @@ public func expectMonotonicallyIncreasing<S: Sequence>(
   }
 }
 
-public func expectStrictlyMonotonicallyIncreasing<S: Sequence>(
+func expectStrictlyMonotonicallyIncreasing<S: Sequence>(
   _ items: S,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,
@@ -384,7 +384,7 @@ public func expectStrictlyMonotonicallyIncreasing<S: Sequence>(
   }
 }
 
-public func expectThrows<T>(
+func expectThrows<T>(
   _ expression: @autoclosure () throws -> T,
   _ message: @autoclosure () -> String = "",
   trapping: Bool = false,

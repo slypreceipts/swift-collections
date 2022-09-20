@@ -12,12 +12,11 @@
 extension OrderedSet {
   /// An unordered view into an ordered set, providing `SetAlgebra`
   /// conformance.
-  @frozen
-  public struct UnorderedView {
+  struct UnorderedView {
     @usableFromInline
     internal var _base: OrderedSet
 
-    @inlinable
+  
     @inline(__always)
     internal init(_base: OrderedSet) {
       self._base = _base
@@ -28,9 +27,9 @@ extension OrderedSet {
   /// unordered view.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public init(_ view: UnorderedView) {
+  init(_ view: UnorderedView) {
     self = view._base
   }
 
@@ -46,8 +45,8 @@ extension OrderedSet {
   /// appended to the end of the set.
   ///
   /// - Complexity: O(1) for both the getter and the setter.
-  @inlinable
-  public var unordered: UnorderedView {
+
+  var unordered: UnorderedView {
     @inline(__always)
     get {
       UnorderedView(_base: self)
@@ -64,21 +63,21 @@ extension OrderedSet {
 
 extension OrderedSet.UnorderedView: CustomStringConvertible {
   /// A textual representation of this instance.
-  public var description: String {
+  var description: String {
     _base.description
   }
 }
 
 extension OrderedSet.UnorderedView: CustomDebugStringConvertible {
   /// A textual representation of this instance, suitable for debugging.
-  public var debugDescription: String {
+  var debugDescription: String {
     _base._debugDescription(typeName: "\(_base._debugTypeName()).UnorderedView")
   }
 }
 
 extension OrderedSet.UnorderedView: CustomReflectable {
   /// The custom mirror for this instance.
-  public var customMirror: Mirror {
+  var customMirror: Mirror {
     Mirror(self, unlabeledChildren: _base._elements, displayStyle: .collection)
   }
 }
@@ -89,8 +88,8 @@ extension OrderedSet.UnorderedView: Equatable {
   /// elements, but not necessarily in the same order.
   ///
   /// - Complexity: O(`min(left.count, right.count)`)
-  @inlinable
-  public static func ==(left: Self, right: Self) -> Bool {
+
+  static func ==(left: Self, right: Self) -> Bool {
     if left._base.__storage != nil,
        left._base.__storage === right._base.__storage
     {
@@ -110,8 +109,8 @@ extension OrderedSet.UnorderedView: Hashable {
   /// given hasher.
   ///
   /// Complexity: O(`count`)
-  @inlinable
-  public func hash(into hasher: inout Hasher) {
+
+  func hash(into hasher: inout Hasher) {
     // Generate a seed from a snapshot of the hasher.  This makes members' hash
     // values depend on the state of the hasher, which improves hashing
     // quality. (E.g., it makes it possible to resolve collisions by passing in
@@ -129,15 +128,15 @@ extension OrderedSet.UnorderedView: Hashable {
 
 extension OrderedSet.UnorderedView: ExpressibleByArrayLiteral {
   /// Creates a new unordered set from the contents of an array literal.
-  @inlinable
+
   @inline(__always)
-  public init(arrayLiteral elements: Element...) {
+  init(arrayLiteral elements: Element...) {
     _base = OrderedSet(elements)
   }
 }
 
 extension OrderedSet.UnorderedView: SetAlgebra {
-  public typealias Element = OrderedSet.Element
+  typealias Element = OrderedSet.Element
 }
 
 extension OrderedSet.UnorderedView {
@@ -145,9 +144,9 @@ extension OrderedSet.UnorderedView {
   ///
   /// This initializer is equivalent to initializing with an empty array
   /// literal.
-  @inlinable
+
   @inline(__always)
-  public init() {
+  init() {
     _base = OrderedSet()
   }
 
@@ -159,9 +158,9 @@ extension OrderedSet.UnorderedView {
   ///    comparisons on average (where *n* is the number of elements
   ///    in the sequence), provided that `Element` implements
   ///    high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public init<S: Sequence>(_ elements: S) where S.Element == Element {
+  init<S: Sequence>(_ elements: S) where S.Element == Element {
     _base = OrderedSet(elements)
   }
 
@@ -173,9 +172,9 @@ extension OrderedSet.UnorderedView {
   /// - Parameter elements: The elements to use as members of the new set.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public init(_ elements: Self) {
+  init(_ elements: Self) {
     self = elements
   }
 
@@ -187,9 +186,9 @@ extension OrderedSet.UnorderedView {
   ///    comparisons on average (where *n* is the number of elements
   ///    in the set), provided that `Element` implements high-quality
   ///    hashing.
-  @inlinable
+
   @inline(__always)
-  public init(_ elements: Set<Element>) {
+  init(_ elements: Set<Element>) {
     self._base = OrderedSet(elements)
   }
 
@@ -201,9 +200,9 @@ extension OrderedSet.UnorderedView {
   ///    comparisons on average (where *n* is the number of elements
   ///    in the set), provided that `Element` implements high-quality
   ///    hashing.
-  @inlinable
+
   @inline(__always)
-  public init<Value>(_ elements: Dictionary<Element, Value>.Keys) {
+  init<Value>(_ elements: Dictionary<Element, Value>.Keys) {
     self._base = OrderedSet(elements)
   }
 }
@@ -218,9 +217,9 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: This operation is expected to perform O(1) comparisons on
   ///    average, provided that `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public func contains(_ element: Element) -> Bool {
+  func contains(_ element: Element) -> Bool {
     _base.contains(element)
   }
 }
@@ -246,8 +245,8 @@ extension OrderedSet.UnorderedView {
   /// - Complexity: This operation is expected to perform O(1)
   ///    hashing/comparison operations on average (over many insertions to the
   ///    same set), provided that `Element` implements high-quality hashing.
-  @inlinable
-  public mutating func insert(
+
+  mutating func insert(
     _ newMember: __owned Element
   ) -> (inserted: Bool, memberAfterInsert: Element) {
     let (inserted, index) = _base.append(newMember)
@@ -272,8 +271,8 @@ extension OrderedSet.UnorderedView {
   /// - Complexity: This operation is expected to perform O(1)
   ///    hashing/comparison operations on average (over many insertions to the
   ///    same set), provided that `Element` implements high-quality hashing.
-  @inlinable
-  public mutating func update(with newMember: __owned Element) -> Element? {
+
+  mutating func update(with newMember: __owned Element) -> Element? {
     let (inserted, index) = _base.append(newMember)
     if inserted { return nil }
     let old = _base._elements[index]
@@ -299,10 +298,10 @@ extension OrderedSet.UnorderedView {
   ///    Removing the last element only takes (amortized) O(1)
   ///    hashing/comparisons operations, if `Element` implements high quality
   ///    hashing.
-  @inlinable
+
   @inline(__always)
   @discardableResult
-  public mutating func remove(_ member: Element) -> Element? {
+  mutating func remove(_ member: Element) -> Element? {
     _base.remove(member)
   }
 }
@@ -322,9 +321,9 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public mutating func formUnion(_ other: __owned Self) {
+  mutating func formUnion(_ other: __owned Self) {
     _base.formUnion(other._base)
   }
 
@@ -341,8 +340,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count` + `other.count`) on average,
   ///    if `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func union(_ other: __owned Self) -> Self {
+
+  __consuming func union(_ other: __owned Self) -> Self {
     _base.union(other._base).unordered
   }
 
@@ -361,8 +360,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public mutating func formUnion<S: Sequence>(
+
+  mutating func formUnion<S: Sequence>(
     _ other: __owned S
   ) where S.Element == Element {
     _base.formUnion(other)
@@ -380,8 +379,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count` + `other.count`) on average,
   ///    if `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func union<S: Sequence>(
+
+  __consuming func union<S: Sequence>(
     _ other: __owned S
   ) -> Self where S.Element == Element {
     _base.union(other).unordered
@@ -402,8 +401,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public __consuming func intersection(_ other: Self) -> Self {
+
+  __consuming func intersection(_ other: Self) -> Self {
     _base.intersection(other._base).unordered
   }
 
@@ -418,8 +417,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public mutating func formIntersection(_ other: Self) {
+
+  mutating func formIntersection(_ other: Self) {
     _base.formIntersection(other._base)
   }
 
@@ -437,8 +436,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(*n*) on average where *n* is the number of
   ///    elements in `other`, if `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func intersection<S: Sequence>(
+
+  __consuming func intersection<S: Sequence>(
     _ other: S
   ) -> Self where S.Element == Element {
     _base.intersection(other).unordered
@@ -454,8 +453,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(*n*) on average where *n* is the number of
   ///    elements in `other`, if `Element` implements high-quality hashing.
-  @inlinable
-  public mutating func formIntersection<S: Sequence>(
+
+  mutating func formIntersection<S: Sequence>(
     _ other: S
   ) where S.Element == Element {
     _base.formIntersection(other)
@@ -479,8 +478,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func symmetricDifference(_ other: __owned Self) -> Self {
+
+  __consuming func symmetricDifference(_ other: __owned Self) -> Self {
     _base.symmetricDifference(other._base).unordered
   }
 
@@ -499,8 +498,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public mutating func formSymmetricDifference(_ other: __owned Self) {
+
+  mutating func formSymmetricDifference(_ other: __owned Self) {
     _base.formSymmetricDifference(other._base)
   }
 
@@ -522,8 +521,8 @@ extension OrderedSet.UnorderedView {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average where *n* is
   ///    the number of elements in `other`, if `Element` implements high-quality
   ///    hashing.
-  @inlinable
-  public __consuming func symmetricDifference<S: Sequence>(
+
+  __consuming func symmetricDifference<S: Sequence>(
     _ other: __owned S
   ) -> Self where S.Element == Element {
     _base.symmetricDifference(other).unordered
@@ -545,8 +544,8 @@ extension OrderedSet.UnorderedView {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average where *n* is
   ///    the number of elements in `other`, if `Element` implements high-quality
   ///    hashing.
-  @inlinable
-  public mutating func formSymmetricDifference<S: Sequence>(
+
+  mutating func formSymmetricDifference<S: Sequence>(
     _ other: __owned S
   ) where S.Element == Element {
     _base.formSymmetricDifference(other)
@@ -569,8 +568,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func subtracting(_ other: Self) -> Self {
+
+  __consuming func subtracting(_ other: Self) -> Self {
     _base.subtracting(other._base).unordered
   }
 
@@ -585,8 +584,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public mutating func subtract(_ other: Self) {
+
+  mutating func subtract(_ other: Self) {
     _base.subtract(other._base)
   }
 
@@ -606,8 +605,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count + other.count`) on average, if
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public __consuming func subtracting<S: Sequence>(
+
+  __consuming func subtracting<S: Sequence>(
     _ other: S
   ) -> Self where S.Element == Element {
     _base.subtracting(other).unordered
@@ -624,8 +623,8 @@ extension OrderedSet.UnorderedView {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average, where *n*
   ///    is the number of elements in `other`, if `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public mutating func subtract<S: Sequence>(
+
+  mutating func subtract<S: Sequence>(
     _ other: S
   ) where S.Element == Element {
     _base.subtract(other)
@@ -649,8 +648,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isSubset(of other: Self) -> Bool {
+
+  func isSubset(of other: Self) -> Bool {
     _base.isSubset(of: other._base)
   }
 
@@ -672,8 +671,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isSubset(of other: Set<Element>) -> Bool {
+
+  func isSubset(of other: Set<Element>) -> Bool {
     _base.isSubset(of: other)
   }
 
@@ -694,8 +693,8 @@ extension OrderedSet.UnorderedView {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average, where *n*
   ///    is the number of elements in `other`, if `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public func isSubset<S: Sequence>(
+
+  func isSubset<S: Sequence>(
     of other: S
   ) -> Bool where S.Element == Element {
     _base.isSubset(of: other)
@@ -719,8 +718,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isSuperset(of other: Self) -> Bool {
+
+  func isSuperset(of other: Self) -> Bool {
     _base.isSuperset(of: other._base)
   }
 
@@ -742,8 +741,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isSuperset(of other: Set<Element>) -> Bool {
+
+  func isSuperset(of other: Set<Element>) -> Bool {
     _base.isSuperset(of: other)
   }
 
@@ -763,8 +762,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(*n*) on average, where *n* is the number of
   ///    elements in `other`, if `Element` implements high-quality hashing.
-  @inlinable
-  public func isSuperset<S: Sequence>(
+
+  func isSuperset<S: Sequence>(
     of other: S
   ) -> Bool where S.Element == Element {
     _base.isSuperset(of: other)
@@ -790,8 +789,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isStrictSubset(of other: Self) -> Bool {
+
+  func isStrictSubset(of other: Self) -> Bool {
     _base.isStrictSubset(of: other._base)
   }
 
@@ -815,8 +814,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isStrictSubset(of other: Set<Element>) -> Bool {
+
+  func isStrictSubset(of other: Set<Element>) -> Bool {
     _base.isStrictSubset(of: other)
   }
 
@@ -839,8 +838,8 @@ extension OrderedSet.UnorderedView {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average, where *n*
   ///    is the number of elements in `other`, if `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public func isStrictSubset<S: Sequence>(
+
+  func isStrictSubset<S: Sequence>(
     of other: S
   ) -> Bool where S.Element == Element {
     _base.isStrictSubset(of: other)
@@ -866,8 +865,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isStrictSuperset(of other: Self) -> Bool {
+
+  func isStrictSuperset(of other: Self) -> Bool {
     _base.isStrictSuperset(of: other._base)
   }
 
@@ -891,8 +890,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isStrictSuperset(of other: Set<Element>) -> Bool {
+
+  func isStrictSuperset(of other: Set<Element>) -> Bool {
     _base.isStrictSuperset(of: other)
   }
 
@@ -915,8 +914,8 @@ extension OrderedSet.UnorderedView {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average, where *n*
   ///    is the number of elements in `other`, if `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public func isStrictSuperset<S: Sequence>(
+
+  func isStrictSuperset<S: Sequence>(
     of other: S
   ) -> Bool where S.Element == Element {
     _base.isStrictSuperset(of: other)
@@ -938,8 +937,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(min(`self.count`, `other.count`)) on
   ///    average, if `Element` implements high-quality hashing.
-  @inlinable
-  public func isDisjoint(with other: Self) -> Bool {
+
+  func isDisjoint(with other: Self) -> Bool {
     _base.isDisjoint(with: other._base)
   }
 
@@ -959,8 +958,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(min(`self.count`, `other.count`)) on
   ///    average, if `Element` implements high-quality hashing.
-  @inlinable
-  public func isDisjoint(with other: Set<Element>) -> Bool {
+
+  func isDisjoint(with other: Set<Element>) -> Bool {
     _base.isDisjoint(with: other)
   }
 
@@ -978,8 +977,8 @@ extension OrderedSet.UnorderedView {
   ///
   /// - Complexity: Expected to be O(*n*) on average, where *n* is the number of
   ///    elements in `other`, if `Element` implements high-quality hashing.
-  @inlinable
-  public func isDisjoint<S: Sequence>(
+
+  func isDisjoint<S: Sequence>(
     with other: S
   ) -> Bool where S.Element == Element {
     _base.isDisjoint(with: other)

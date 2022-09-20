@@ -12,10 +12,10 @@
 
 // Loosely adapted from https://github.com/apple/swift/tree/main/stdlib/private/StdlibUnittest
 
-public enum ExpectedComparisonResult: Hashable {
+enum ExpectedComparisonResult: Hashable {
   case lt, eq, gt
 
-  public func flip() -> ExpectedComparisonResult {
+  func flip() -> ExpectedComparisonResult {
     switch self {
     case .lt:
       return .gt
@@ -26,7 +26,7 @@ public enum ExpectedComparisonResult: Hashable {
     }
   }
 
-  public static func comparing<C: Comparable>(_ left: C, _ right: C) -> Self {
+  static func comparing<C: Comparable>(_ left: C, _ right: C) -> Self {
     left < right ? .lt
       : left > right ? .gt
       : .eq
@@ -34,7 +34,7 @@ public enum ExpectedComparisonResult: Hashable {
 }
 
 extension ExpectedComparisonResult: CustomStringConvertible {
-  public var description: String {
+  var description: String {
     switch self {
     case .lt:
       return "<"
@@ -46,7 +46,7 @@ extension ExpectedComparisonResult: CustomStringConvertible {
   }
 }
 
-public func checkComparable<Instance: Comparable>(
+func checkComparable<Instance: Comparable>(
   sortedEquivalenceClasses: [[Instance]],
   file: StaticString = #file, line: UInt = #line
 ) {
@@ -66,7 +66,7 @@ public func checkComparable<Instance: Comparable>(
 /// Test that the elements of `instances` satisfy the semantic
 /// requirements of `Comparable`, using `oracle` to generate comparison
 /// expectations from pairs of positions in `instances`.
-public func checkComparable<Instances: Collection>(
+func checkComparable<Instances: Collection>(
   _ instances: Instances,
   oracle: (Instances.Index, Instances.Index) -> ExpectedComparisonResult,
   file: StaticString = #file, line: UInt = #line
@@ -77,7 +77,7 @@ public func checkComparable<Instances: Collection>(
   _checkComparable(instances, oracle: oracle, file: file, line: line)
 }
 
-public func checkComparable<T : Comparable>(
+func checkComparable<T : Comparable>(
   expected: ExpectedComparisonResult, _ lhs: T, _ rhs: T,
   file: StaticString = #file, line: UInt = #line
 ) {
@@ -89,7 +89,7 @@ public func checkComparable<T : Comparable>(
 
 /// Same as `checkComparable(_:oracle:file:line:)` but doesn't check
 /// `Equatable` conformance. Useful for preventing duplicate testing.
-public func _checkComparable<Instances: Collection>(
+func _checkComparable<Instances: Collection>(
   _ instances: Instances,
   oracle: (Instances.Index, Instances.Index) -> ExpectedComparisonResult,
   file: StaticString = #file, line: UInt = #line

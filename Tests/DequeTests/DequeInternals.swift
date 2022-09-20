@@ -9,8 +9,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import _CollectionsTestSupport
-@_spi(Testing) import DequeModule
+@testable import _CollectionsTestSupport
+@testable @_spi(Testing) import DequeModule
 
 internal struct DequeLayout: CustomStringConvertible {
   let capacity: Int

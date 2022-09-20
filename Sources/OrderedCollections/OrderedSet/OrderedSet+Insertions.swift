@@ -19,7 +19,7 @@ extension OrderedSet {
   ///    a member.
   /// - Complexity: Expected to be O(1) on average if `Element`
   ///    implements high-quality hashing.
-  @inlinable
+
   internal mutating func _appendNew(_ item: Element) {
     assert(!contains(item), "Duplicate item")
     _elements.append(item)
@@ -44,7 +44,7 @@ extension OrderedSet {
   /// reallocate the hash table.
   ///
   /// - Complexity: Amortized O(1)
-  @inlinable
+
   internal mutating func _appendNew(_ item: Element, in bucket: _Bucket) {
     _elements.append(item)
 
@@ -60,7 +60,7 @@ extension OrderedSet {
     }
   }
 
-  @inlinable
+
   @discardableResult
   internal mutating func _append(_ item: Element) -> (inserted: Bool, index: Int) {
     let (index, bucket) = _find(item)
@@ -81,10 +81,10 @@ extension OrderedSet {
   /// - Complexity: The operation is expected to perform O(1) copy, hash, and
   ///    compare operations on the `Element` type, if it implements high-quality
   ///    hashing.
-  @inlinable
+
   @inline(__always)
   @discardableResult
-  public mutating func append(_ item: Element) -> (inserted: Bool, index: Int) {
+  mutating func append(_ item: Element) -> (inserted: Bool, index: Int) {
     let result = _append(item)
     _checkInvariants()
     return result
@@ -101,8 +101,8 @@ extension OrderedSet {
   /// - Complexity: The operation is expected to perform amortized O(1) copy,
   ///    hash, and compare operations on the `Element` type, if it implements
   ///    high-quality hashing.
-  @inlinable
-  public mutating func append<S: Sequence>(
+
+  mutating func append<S: Sequence>(
     contentsOf elements: S
   ) where S.Element == Element {
     for item in elements {
@@ -113,7 +113,7 @@ extension OrderedSet {
 }
 
 extension OrderedSet {
-  @inlinable
+
   internal mutating func _insertNew(
     _ item: Element,
     at index: Int,
@@ -153,9 +153,9 @@ extension OrderedSet {
   ///    O(`self.count`) copy, hash, and compare operations on the `Element`
   ///    type, if it implements high-quality hashing. (Insertions need to make
   ///    room in the storage array to add the inserted element.)
-  @inlinable
+
   @discardableResult
-  public mutating func insert(
+  mutating func insert(
     _ item: Element,
     at index: Int
   ) -> (inserted: Bool, index: Int) {
@@ -181,9 +181,9 @@ extension OrderedSet {
   /// - Returns: The original element that was replaced.
   ///
   /// - Complexity: Amortized O(1).
-  @inlinable
+
   @discardableResult
-  public mutating func update(_ item: Element, at index: Int) -> Element {
+  mutating func update(_ item: Element, at index: Int) -> Element {
     let old = _elements[index]
     precondition(
       item == old,
@@ -208,9 +208,9 @@ extension OrderedSet {
   /// - Complexity: The operation is expected to perform amortized O(1) copy,
   ///    hash, and compare operations on the `Element` type, if it implements
   ///    high-quality hashing.
-  @inlinable
+
   @discardableResult
-  public mutating func updateOrAppend(_ item: Element) -> Element? {
+  mutating func updateOrAppend(_ item: Element) -> Element? {
     let (inserted, index) = _append(item)
     if inserted { return nil }
     let old = _elements[index]
@@ -237,9 +237,9 @@ extension OrderedSet {
   /// - Complexity: The operation is expected to perform amortized O(1) copy,
   ///    hash, and compare operations on the `Element` type, if it implements
   ///    high-quality hashing.
-  @inlinable
+
   @discardableResult
-  public mutating func updateOrInsert(
+  mutating func updateOrInsert(
     _ item: Element,
     at index: Int
   ) -> (originalMember: Element?, index: Int) {

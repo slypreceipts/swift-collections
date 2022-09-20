@@ -64,7 +64,7 @@ extension Collection {
   }
 }
 
-public func checkCollection<C: Collection, Expected: Sequence>(
+func checkCollection<C: Collection, Expected: Sequence>(
   _ collection: C,
   expectedContents: Expected,
   file: StaticString = #file,
@@ -97,7 +97,7 @@ public func checkCollection<C: Collection, Expected: Sequence>(
   }
 }
 
-public func checkCollection<C: Collection, Expected: Sequence>(
+func checkCollection<C: Collection, Expected: Sequence>(
   _ collection: C,
   expectedContents: Expected,
   by areEquivalent: (C.Element, C.Element) -> Bool,
@@ -116,7 +116,7 @@ public func checkCollection<C: Collection, Expected: Sequence>(
     file: file, line: line)
 }
 
-public func _checkCollection<C: Collection, Expected: Sequence>(
+func _checkCollection<C: Collection, Expected: Sequence>(
   _ collection: C,
   expectedContents: Expected,
   by areEquivalent: (C.Element, C.Element) -> Bool,

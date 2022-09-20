@@ -26,9 +26,9 @@ extension OrderedSet {
   /// - Complexity: Expected to be O(*n*) on average, where *n* is the
   ///    number of elements in the sequence, if `Element` implements
   ///    high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public init<S: Sequence>(uncheckedUniqueElements elements: S)
+  init<S: Sequence>(uncheckedUniqueElements elements: S)
   where S.Element == Element {
     let elements = ContiguousArray<Element>(elements)
 #if DEBUG
@@ -54,8 +54,8 @@ extension OrderedSet {
   ///    comparisons on average (where *n* is the number of elements
   ///    in the sequence), provided that `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public init<S: Sequence>(_ elements: S) where S.Element == Element {
+
+  init<S: Sequence>(_ elements: S) where S.Element == Element {
     if S.self == Self.self {
       self = elements as! Self
       return
@@ -78,8 +78,8 @@ extension OrderedSet {
   /// - Parameter elements: The elements to use as members of the new set.
   ///
   /// - Complexity: O(1)
-  @inlinable
-  public init(_ elements: Self) {
+
+  init(_ elements: Self) {
     self = elements
   }
 
@@ -90,8 +90,8 @@ extension OrderedSet {
   /// - Complexity: This operation is expected to perform
   ///    O(`elements.count`) operations on average, provided that
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public init(_ elements: SubSequence) {
+
+  init(_ elements: SubSequence) {
     self.init(uncheckedUniqueElements: elements._slice)
   }
 
@@ -102,8 +102,8 @@ extension OrderedSet {
   /// - Complexity: This operation is expected to perform
   ///    O(`elements.count`) operations on average, provided that
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public init(_ elements: Set<Element>) {
+
+  init(_ elements: Set<Element>) {
     self.init(uncheckedUniqueElements: elements)
   }
 
@@ -114,8 +114,8 @@ extension OrderedSet {
   /// - Complexity: This operation is expected to perform
   ///    O(`elements.count`) operations on average, provided that
   ///    `Element` implements high-quality hashing.
-  @inlinable
-  public init<Value>(_ elements: Dictionary<Element, Value>.Keys) {
+
+  init<Value>(_ elements: Dictionary<Element, Value>.Keys) {
     self._elements = ContiguousArray(elements)
     _regenerateHashTable()
     _checkInvariants()
@@ -129,8 +129,8 @@ extension OrderedSet {
   ///    comparisons on average (where *n* is the number of elements
   ///    in the sequence), provided that `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public init<C: RandomAccessCollection>(
+
+  init<C: RandomAccessCollection>(
     _ elements: C
   ) where C.Element == Element {
     // This code is careful not to copy storage if `C` is an Array

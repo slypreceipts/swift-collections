@@ -15,8 +15,8 @@ extension Deque: Equatable where Element: Equatable {
   /// order.
   ///
   /// - Complexity: O(`min(left.count, right.count)`)
-  @inlinable
-  public static func ==(left: Self, right: Self) -> Bool {
+
+  static func ==(left: Self, right: Self) -> Bool {
     return left.elementsEqual(right)
   }
 }

@@ -14,8 +14,8 @@ extension OrderedDictionary: Hashable where Value: Hashable {
   /// given hasher.
   ///
   /// Complexity: O(`count`)
-  @inlinable
-  public func hash(into hasher: inout Hasher) {
+
+  func hash(into hasher: inout Hasher) {
     hasher.combine(count) // Discriminator
     for (key, value) in self {
       hasher.combine(key)

@@ -17,8 +17,8 @@ extension Deque: Encodable where Element: Encodable {
   /// encoder's format.
   ///
   /// - Parameter encoder: The encoder to write data to.
-  @inlinable
-  public func encode(to encoder: Encoder) throws {
+
+  func encode(to encoder: Encoder) throws {
     var container = encoder.unkeyedContainer()
     for element in self {
       try container.encode(element)
@@ -33,8 +33,8 @@ extension Deque: Decodable where Element: Decodable {
   /// if the data read is corrupted or otherwise invalid.
   ///
   /// - Parameter decoder: The decoder to read data from.
-  @inlinable
-  public init(from decoder: Decoder) throws {
+
+  init(from decoder: Decoder) throws {
     self.init()
 
     var container = try decoder.unkeyedContainer()

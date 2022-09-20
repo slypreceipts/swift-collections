@@ -10,9 +10,9 @@
 //===----------------------------------------------------------------------===//
 
 import XCTest
-@_spi(Testing) import OrderedCollections
+@testable @_spi(Testing) import OrderedCollections
 
-import _CollectionsTestSupport
+@testable import _CollectionsTestSupport
 
 class OrderedDictionaryValueTests: CollectionTestCase {
   func test_values_getter() {

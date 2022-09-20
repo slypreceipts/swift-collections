@@ -11,7 +11,7 @@
 
 extension Deque: CustomStringConvertible {
   /// A textual representation of this instance.
-  public var description: String {
+  var description: String {
     var result = "["
     var first = true
     for item in self {

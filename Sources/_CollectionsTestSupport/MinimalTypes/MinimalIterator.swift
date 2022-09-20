@@ -22,7 +22,7 @@ internal class _MinimalIteratorSharedState<Element> {
   internal var i: Int = 0
   internal var underestimatedCount: Int = 0
 
-  public func next() -> Element? {
+  func next() -> Element? {
     if i == data.count {
       return nil
     }
@@ -33,14 +33,14 @@ internal class _MinimalIteratorSharedState<Element> {
 
 /// An iterator that implements the IteratorProtocol contract in the most
 /// narrow way possible.
-public struct MinimalIterator<Element>: IteratorProtocol {
+struct MinimalIterator<Element>: IteratorProtocol {
   internal let _sharedState: _MinimalIteratorSharedState<Element>
 
-  public init<S: Sequence>(_ s: S) where S.Element == Element {
+  init<S: Sequence>(_ s: S) where S.Element == Element {
     self._sharedState = _MinimalIteratorSharedState(Array(s))
   }
 
-  public init(_ data: [Element]) {
+  init(_ data: [Element]) {
     self._sharedState = _MinimalIteratorSharedState(data)
   }
 
@@ -48,7 +48,7 @@ public struct MinimalIterator<Element>: IteratorProtocol {
     self._sharedState = _sharedState
   }
 
-  public func next() -> Element? {
+  func next() -> Element? {
     _sharedState.next()
   }
 }

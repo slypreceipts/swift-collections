@@ -9,17 +9,17 @@
 //
 //===----------------------------------------------------------------------===//
 
-public class MinimalDecoder {
-  public typealias Value = MinimalEncoder.Value
+class MinimalDecoder {
+  typealias Value = MinimalEncoder.Value
   typealias _Key = MinimalEncoder._Key
 
-  public private(set) var userInfo: [CodingUserInfoKey: Any]
+  private(set) var userInfo: [CodingUserInfoKey: Any]
 
-  public init(userInfo: [CodingUserInfoKey: Any] = [:]) {
+  init(userInfo: [CodingUserInfoKey: Any] = [:]) {
     self.userInfo = userInfo
   }
 
-  public func decode<T: Decodable>(_ input: Value, as type: T.Type) throws -> T {
+  func decode<T: Decodable>(_ input: Value, as type: T.Type) throws -> T {
     let decoder = Decoder(base: self, parent: nil, input: input, key: nil)
     defer {
       decoder.finalize()
@@ -27,7 +27,7 @@ public class MinimalDecoder {
     return try T(from: decoder)
   }
 
-  public static func decode<T: Decodable>(_ input: Value, as type: T.Type) throws -> T {
+  static func decode<T: Decodable>(_ input: Value, as type: T.Type) throws -> T {
     let decoder = MinimalDecoder()
     return try decoder.decode(input, as: T.self)
   }

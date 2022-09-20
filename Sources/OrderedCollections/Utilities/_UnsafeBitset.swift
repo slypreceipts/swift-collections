@@ -16,7 +16,6 @@
 /// holding arbitrarily large integers. The maximal element a bitset can store
 /// is fixed at its initialization.
 @usableFromInline
-@frozen
 internal struct _UnsafeBitset {
   @usableFromInline
   internal let _words: UnsafeMutableBufferPointer<Word>
@@ -24,21 +23,21 @@ internal struct _UnsafeBitset {
   @usableFromInline
   internal var _count: Int
 
-  @inlinable
+
   @inline(__always)
   internal init(words: UnsafeMutableBufferPointer<Word>, count: Int) {
     self._words = words
     self._count = count
   }
 
-  @inlinable
+
   @inline(__always)
   internal init(words: UnsafeMutablePointer<Word>, wordCount: Int, count: Int) {
     self._words = UnsafeMutableBufferPointer(start: words, count: wordCount)
     self._count = count
   }
 
-  @inlinable
+
   @inline(__always)
   internal var count: Int {
     _count
@@ -53,7 +52,7 @@ extension _UnsafeBitset {
 }
 
 extension _UnsafeBitset {
-  @inlinable
+
   @inline(__always)
   static func withTemporaryBitset<R>(
     capacity: Int,
@@ -223,20 +222,19 @@ extension _UnsafeBitset: Sequence {
   @usableFromInline
   internal typealias Element = Int
 
-  @inlinable
+  @usableFromInline
   @inline(__always)
   internal var underestimatedCount: Int {
     return count
   }
 
-  @inlinable
+  @usableFromInline
   @inline(__always)
   func makeIterator() -> Iterator {
     return Iterator(self)
   }
 
   @usableFromInline
-  @frozen
   internal struct Iterator: IteratorProtocol {
     @usableFromInline
     internal let bitset: _UnsafeBitset
@@ -247,7 +245,7 @@ extension _UnsafeBitset: Sequence {
     @usableFromInline
     internal var word: Word
 
-    @inlinable
+  
     internal init(_ bitset: _UnsafeBitset) {
       self.bitset = bitset
       self.index = 0
@@ -275,12 +273,11 @@ extension _UnsafeBitset: Sequence {
 ////////////////////////////////////////////////////////////////////////////////
 extension _UnsafeBitset {
   @usableFromInline
-  @frozen
   internal struct Word {
     @usableFromInline
     internal var value: UInt
 
-    @inlinable
+  
     @inline(__always)
     internal init(_ value: UInt) {
       self.value = value
@@ -289,32 +286,32 @@ extension _UnsafeBitset {
 }
 
 extension _UnsafeBitset.Word {
-  @inlinable
+
   @inline(__always)
   internal static var capacity: Int {
     return UInt.bitWidth
   }
 
-  @inlinable
+
   @inline(__always)
   internal var count: Int {
     value.nonzeroBitCount
   }
 
-  @inlinable
+
   @inline(__always)
   internal var isEmpty: Bool {
     value == 0
   }
 
-  @inlinable
+
   @inline(__always)
   internal func contains(_ bit: Int) -> Bool {
     assert(bit >= 0 && bit < UInt.bitWidth)
     return value & (1 &<< bit) != 0
   }
 
-  @inlinable
+
   @inline(__always)
   @discardableResult
   internal mutating func insert(_ bit: Int) -> Bool {
@@ -325,7 +322,7 @@ extension _UnsafeBitset.Word {
     return inserted
   }
 
-  @inlinable
+
   @inline(__always)
   @discardableResult
   internal mutating func remove(_ bit: Int) -> Bool {
@@ -338,7 +335,7 @@ extension _UnsafeBitset.Word {
 }
 
 extension _UnsafeBitset.Word {
-  @inlinable
+
   @inline(__always)
   internal mutating func insert(bitsBelow bit: Int) -> Int {
     assert(bit >= 0 && bit < Self.capacity)
@@ -348,7 +345,7 @@ extension _UnsafeBitset.Word {
     return inserted
   }
 
-  @inlinable
+
   @inline(__always)
   internal mutating func remove(bitsBelow bit: Int) -> Int {
     assert(bit >= 0 && bit < Self.capacity)
@@ -360,13 +357,13 @@ extension _UnsafeBitset.Word {
 }
 
 extension _UnsafeBitset.Word {
-  @inlinable
+
   @inline(__always)
   internal static var empty: Self {
     Self(0)
   }
 
-  @inlinable
+
   @inline(__always)
   internal static var allBits: Self {
     Self(UInt.max)
@@ -378,14 +375,14 @@ extension _UnsafeBitset.Word {
 // problems in normal use, because `next()` is usually called on a separate
 // iterator, not the original word.
 extension _UnsafeBitset.Word: Sequence, IteratorProtocol {
-  @inlinable
+  @usableFromInline
   internal var underestimatedCount: Int {
     count
   }
 
   /// Return the index of the lowest set bit in this word,
   /// and also destructively clear it.
-  @inlinable
+  @usableFromInline
   internal mutating func next() -> Int? {
     guard value != 0 else { return nil }
     let bit = value.trailingZeroBitCount

@@ -35,8 +35,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isSubset(of other: Self) -> Bool {
+
+  func isSubset(of other: Self) -> Bool {
     guard other.count >= self.count else { return false }
     for item in self {
       guard other.contains(item) else { return false }
@@ -62,9 +62,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public func isSubset(of other: UnorderedView) -> Bool {
+  func isSubset(of other: UnorderedView) -> Bool {
     isSubset(of: other._base)
   }
 
@@ -84,8 +84,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isSubset(of other: Set<Element>) -> Bool {
+
+  func isSubset(of other: Set<Element>) -> Bool {
     guard other.count >= self.count else { return false }
     for item in self {
       guard other.contains(item) else { return false }
@@ -110,8 +110,8 @@ extension OrderedSet {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average, where *n*
   ///    is the number of elements in `other`, if `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public func isSubset<S: Sequence>(
+
+  func isSubset<S: Sequence>(
     of other: S
   ) -> Bool where S.Element == Element {
     guard !isEmpty else { return true }
@@ -147,8 +147,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isSuperset(of other: Self) -> Bool {
+
+  func isSuperset(of other: Self) -> Bool {
     other.isSubset(of: self)
   }
 
@@ -170,13 +170,13 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isSuperset(of other: UnorderedView) -> Bool {
+
+  func isSuperset(of other: UnorderedView) -> Bool {
     isSuperset(of: other._base)
   }
 
-  @inlinable
-  public func isSuperset(of other: Set<Element>) -> Bool {
+
+  func isSuperset(of other: Set<Element>) -> Bool {
     guard self.count >= other.count else { return false }
     return _isSuperset(of: other)
   }
@@ -197,14 +197,14 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(*n*) on average, where *n* is the number of
   ///    elements in `other`, if `Element` implements high-quality hashing.
-  @inlinable
-  public func isSuperset<S: Sequence>(
+
+  func isSuperset<S: Sequence>(
     of other: S
   ) -> Bool where S.Element == Element {
     _isSuperset(of: other)
   }
 
-  @inlinable
+
   internal func _isSuperset<S: Sequence>(
     of other: S
   ) -> Bool where S.Element == Element {
@@ -234,8 +234,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isStrictSubset(of other: Self) -> Bool {
+
+  func isStrictSubset(of other: Self) -> Bool {
     self.count < other.count && self.isSubset(of: other)
   }
 
@@ -259,9 +259,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public func isStrictSubset(of other: UnorderedView) -> Bool {
+  func isStrictSubset(of other: UnorderedView) -> Bool {
     isStrictSubset(of: other._base)
   }
 
@@ -283,8 +283,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`self.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isStrictSubset(of other: Set<Element>) -> Bool {
+
+  func isStrictSubset(of other: Set<Element>) -> Bool {
     self.count < other.count && self.isSubset(of: other)
   }
 
@@ -307,8 +307,8 @@ extension OrderedSet {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average, where *n*
   ///    is the number of elements in `other`, if `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public func isStrictSubset<S: Sequence>(
+
+  func isStrictSubset<S: Sequence>(
     of other: S
   ) -> Bool where S.Element == Element {
     _UnsafeBitset.withTemporaryBitset(capacity: count) { seen in
@@ -349,8 +349,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isStrictSuperset(of other: Self) -> Bool {
+
+  func isStrictSuperset(of other: Self) -> Bool {
     self.count > other.count && other.isSubset(of: self)
   }
 
@@ -374,9 +374,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public func isStrictSuperset(of other: UnorderedView) -> Bool {
+  func isStrictSuperset(of other: UnorderedView) -> Bool {
     isStrictSuperset(of: other._base)
   }
 
@@ -398,8 +398,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(`other.count`) on average, if `Element`
   ///    implements high-quality hashing.
-  @inlinable
-  public func isStrictSuperset(of other: Set<Element>) -> Bool {
+
+  func isStrictSuperset(of other: Set<Element>) -> Bool {
     self.count > other.count && other.isSubset(of: self)
   }
 
@@ -422,8 +422,8 @@ extension OrderedSet {
   /// - Complexity: Expected to be O(`self.count` + *n*) on average, where *n*
   ///    is the number of elements in `other`, if `Element` implements
   ///    high-quality hashing.
-  @inlinable
-  public func isStrictSuperset<S: Sequence>(
+
+  func isStrictSuperset<S: Sequence>(
     of other: S
   ) -> Bool where S.Element == Element {
     _UnsafeBitset.withTemporaryBitset(capacity: count) { seen in
@@ -457,8 +457,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(min(`self.count`, `other.count`)) on
   ///    average, if `Element` implements high-quality hashing.
-  @inlinable
-  public func isDisjoint(with other: Self) -> Bool {
+
+  func isDisjoint(with other: Self) -> Bool {
     guard !self.isEmpty && !other.isEmpty else { return true }
     if self.count <= other.count {
       for item in self {
@@ -488,9 +488,9 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(min(`self.count`, `other.count`)) on
   ///    average, if `Element` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public func isDisjoint(with other: UnorderedView) -> Bool {
+  func isDisjoint(with other: UnorderedView) -> Bool {
     isDisjoint(with: other._base)
   }
 
@@ -508,8 +508,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(min(`self.count`, `other.count`)) on
   ///    average, if `Element` implements high-quality hashing.
-  @inlinable
-  public func isDisjoint(with other: Set<Element>) -> Bool {
+
+  func isDisjoint(with other: Set<Element>) -> Bool {
     guard !self.isEmpty && !other.isEmpty else { return true }
     if self.count <= other.count {
       for item in self {
@@ -537,8 +537,8 @@ extension OrderedSet {
   ///
   /// - Complexity: Expected to be O(*n*) on average, where *n* is the number of
   ///    elements in `other`, if `Element` implements high-quality hashing.
-  @inlinable
-  public func isDisjoint<S: Sequence>(
+
+  func isDisjoint<S: Sequence>(
     with other: S
   ) -> Bool where S.Element == Element {
     guard !self.isEmpty else { return true }

@@ -10,12 +10,11 @@
 //===----------------------------------------------------------------------===//
 
 @usableFromInline
-@frozen
 internal struct _HashTable {
   @usableFromInline
   internal var _storage: Storage
 
-  @inlinable
+
   @inline(__always)
   internal init(_ storage: Storage) {
     _storage = storage
@@ -61,7 +60,7 @@ extension _HashTable {
   /// - Parameter reservedScale: The reserved scale to remember in the returned storage.
   /// - Parameter duplicates: The strategy to use to handle duplicate items.
   /// - Returns: `(storage, index)` where `storage` is a storage instance. The contents of `storage` reflects all elements in `contents[contents.startIndex ..< index]`. `index` is usually `contents.endIndex`, except when the function was asked to reject duplicates, in which case `index` addresses the first duplicate element in `contents` (if any).
-  @inlinable
+
   @inline(never)
   @_effects(releasenone)
   static func create<C: RandomAccessCollection>(
@@ -87,7 +86,7 @@ extension _HashTable {
   /// - Parameter reservedScale: The reserved scale to remember in the returned storage.
   /// - Parameter duplicates: The strategy to use to handle duplicate items.
   /// - Returns: `(storage, index)` where `storage` is a storage instance. The contents of `storage` reflects all elements in `contents[contents.startIndex ..< index]`. `index` is usually `contents.endIndex`, except when the function was asked to reject duplicates, in which case `index` addresses the first duplicate element in `contents` (if any).
-  @inlinable
+
   @inline(never)
   @_effects(releasenone)
   static func create<C: RandomAccessCollection>(
@@ -143,7 +142,7 @@ extension _HashTable {
   ///
   /// - Warning: The handle supplied to `body` is only valid for the duration of
   ///    the closure call. The closure must not escape it outside the call.
-  @inlinable
+
   @inline(__always)
   internal func read<R>(_ body: (_UnsafeHashTable) throws -> R) rethrows -> R {
     try _storage.withUnsafeMutablePointers { header, elements in
@@ -156,7 +155,7 @@ extension _HashTable {
   ///
   /// - Warning: The handle supplied to `body` is only valid for the duration of
   ///    the closure call. The closure must not escape it outside the call.
-  @inlinable
+
   @inline(__always)
   internal func update<R>(_ body: (_UnsafeHashTable) throws -> R) rethrows -> R {
     try _storage.withUnsafeMutablePointers { header, elements in
@@ -167,35 +166,35 @@ extension _HashTable {
 }
 
 extension _HashTable {
-  @inlinable
+
   internal var header: Header {
     get { _storage.header }
     @inline(__always) // https://github.com/apple/swift-collections/issues/164
     nonmutating _modify { yield &_storage.header }
   }
 
-  @inlinable
+
   internal var capacity: Int {
     _storage.header.capacity
   }
 
-  @inlinable
+
   internal var minimumCapacity: Int {
     if scale == reservedScale { return 0 }
     return Self.minimumCapacity(forScale: scale)
   }
 
-  @inlinable
+
   internal var scale: Int {
     _storage.header.scale
   }
 
-  @inlinable
+
   internal var reservedScale: Int {
     _storage.header.reservedScale
   }
 
-  @inlinable
+
   internal var bias: Int {
     _storage.header.bias
   }

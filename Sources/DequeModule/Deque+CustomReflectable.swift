@@ -11,7 +11,7 @@
 
 extension Deque: CustomReflectable {
   /// The custom mirror for this instance.
-  public var customMirror: Mirror {
+  var customMirror: Mirror {
     Mirror(self, unlabeledChildren: self, displayStyle: .collection)
   }
 }

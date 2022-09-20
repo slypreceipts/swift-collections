@@ -21,8 +21,8 @@ extension OrderedDictionary {
   ///
   /// - Complexity: O(1) when the dictionary's storage isn't shared with another
   ///    value; O(`count`) otherwise.
-  @inlinable
-  public mutating func swapAt(_ i: Int, _ j: Int) {
+
+  mutating func swapAt(_ i: Int, _ j: Int) {
     _keys.swapAt(i, j)
     _values.swapAt(i, j)
   }
@@ -44,8 +44,8 @@ extension OrderedDictionary {
   ///   equal to the collection's `endIndex`.
   ///
   /// - Complexity: O(`count`)
-  @inlinable
-  public mutating func partition(
+
+  mutating func partition(
     by belongsInSecondPartition: (Element) throws -> Bool
   ) rethrows -> Int {
     let pivot = try _values.withUnsafeMutableBufferPointer { values in
@@ -93,8 +93,8 @@ extension OrderedDictionary {
   ///   lost.
   ///
   /// - Complexity: O(*n* log *n*), where *n* is the length of the collection.
-  @inlinable
-  public mutating func sort(
+
+  mutating func sort(
     by areInIncreasingOrder: (Element, Element) throws -> Bool
   ) rethrows {
     // FIXME: Implement in-place sorting.
@@ -120,8 +120,8 @@ extension OrderedDictionary where Key: Comparable {
   /// preserves the relative order of elements that compare equal.
   ///
   /// - Complexity: O(*n* log *n*), where *n* is the length of the collection.
-  @inlinable
-  public mutating func sort() {
+
+  mutating func sort() {
     sort { $0.key < $1.key }
   }
 }
@@ -136,8 +136,8 @@ extension OrderedDictionary {
   /// system's default random generator.
   ///
   /// - Complexity: O(*n*), where *n* is the length of the collection.
-  @inlinable
-  public mutating func shuffle() {
+
+  mutating func shuffle() {
     var generator = SystemRandomNumberGenerator()
     shuffle(using: &generator)
   }
@@ -159,8 +159,8 @@ extension OrderedDictionary {
   ///   same shuffled order each time you run your program, that sequence may
   ///   change when your program is compiled using a different version of
   ///   Swift.
-  @inlinable
-  public mutating func shuffle<T: RandomNumberGenerator>(
+
+  mutating func shuffle<T: RandomNumberGenerator>(
     using generator: inout T
   ) {
     guard count > 1 else { return }
@@ -184,8 +184,8 @@ extension OrderedDictionary {
   /// Reverses the elements of the ordered dictionary in place.
   ///
   /// - Complexity: O(`count`)
-  @inlinable
-  public mutating func reverse() {
+
+  mutating func reverse() {
     _keys.reverse()
     _values.reverse()
   }

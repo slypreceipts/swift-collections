@@ -20,8 +20,8 @@
 /// FIXME: Fix error reporting. We ought to throw errors instead of trapping
 /// on validation problems, and we should include context information to help
 /// isolating the problem.
-public class MinimalEncoder {
-  public enum Value: Hashable {
+class MinimalEncoder {
+  enum Value: Hashable {
     case null
     case bool(Bool)
     case int(Int)
@@ -43,16 +43,16 @@ public class MinimalEncoder {
 
   var userInfo: [CodingUserInfoKey: Any]
 
-  public init(userInfo: [CodingUserInfoKey: Any] = [:]) {
+  init(userInfo: [CodingUserInfoKey: Any] = [:]) {
     self.userInfo = userInfo
   }
 
-  public func encode<T: Encodable>(_ value: T) throws -> Value {
+  func encode<T: Encodable>(_ value: T) throws -> Value {
     let encoder = Encoder(base: self, parent: nil, key: nil)
     return try encoder._encode(value, key: nil)
   }
 
-  public static func encode<T: Encodable>(_ value: T) throws -> Value {
+  static func encode<T: Encodable>(_ value: T) throws -> Value {
     let base = MinimalEncoder()
     return try base.encode(value)
   }
@@ -130,13 +130,13 @@ extension MinimalEncoder.Value: CustomStringConvertible {
     }
   }
 
-  public var description: String {
+  var description: String {
     self._description(prefix: "", indent: "  ")
   }
 }
 
 extension MinimalDecoder.Value {
-  public var typeDescription: String {
+  var typeDescription: String {
     switch self {
     case .null: return ".null"
     case .bool(_): return ".bool"

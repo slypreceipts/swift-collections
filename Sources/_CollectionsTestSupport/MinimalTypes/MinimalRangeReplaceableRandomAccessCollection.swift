@@ -13,21 +13,21 @@
 // Loosely adapted from https://github.com/apple/swift/tree/main/stdlib/private/StdlibCollectionUnittest
 
 /// A minimal implementation of `RandomAccessCollection & RangeReplaceableCollection` with extra checks.
-public struct MinimalRangeReplaceableRandomAccessCollection<Element> {
+struct MinimalRangeReplaceableRandomAccessCollection<Element> {
   internal var _core: _MinimalCollectionCore<Element>
 
-  public let timesMakeIteratorCalled = ResettableValue(0)
-  public let timesUnderestimatedCountCalled = ResettableValue(0)
-  public let timesRangeChecksCalled = ResettableValue(0)
-  public let timesIndexNavigationCalled = ResettableValue(0)
-  public let timesSubscriptGetterCalled = ResettableValue(0)
-  public let timesSubscriptSetterCalled = ResettableValue(0)
-  public let timesRangeSubscriptGetterCalled = ResettableValue(0)
-  public let timesRangeSubscriptSetterCalled = ResettableValue(0)
-  public let timesSwapCalled = ResettableValue(0)
-  public let timesPartitionCalled = ResettableValue(0)
+  let timesMakeIteratorCalled = ResettableValue(0)
+  let timesUnderestimatedCountCalled = ResettableValue(0)
+  let timesRangeChecksCalled = ResettableValue(0)
+  let timesIndexNavigationCalled = ResettableValue(0)
+  let timesSubscriptGetterCalled = ResettableValue(0)
+  let timesSubscriptSetterCalled = ResettableValue(0)
+  let timesRangeSubscriptGetterCalled = ResettableValue(0)
+  let timesRangeSubscriptSetterCalled = ResettableValue(0)
+  let timesSwapCalled = ResettableValue(0)
+  let timesPartitionCalled = ResettableValue(0)
 
-  public init<S: Sequence>(
+  init<S: Sequence>(
     _ elements: S,
     context: TestContext = TestContext.current,
     underestimatedCount: UnderestimatedCountBehavior = .value(0)
@@ -41,45 +41,45 @@ public struct MinimalRangeReplaceableRandomAccessCollection<Element> {
 }
 
 extension MinimalRangeReplaceableRandomAccessCollection: Sequence {
-  public typealias Iterator = MinimalIterator<Element>
+  typealias Iterator = MinimalIterator<Element>
 
-  public func makeIterator() -> MinimalIterator<Element> {
+  func makeIterator() -> MinimalIterator<Element> {
     timesMakeIteratorCalled.increment()
     return MinimalIterator(_core.elements)
   }
 
-  public var underestimatedCount: Int {
+  var underestimatedCount: Int {
     timesUnderestimatedCountCalled.increment()
     return _core.underestimatedCount
   }
 }
 
 extension MinimalRangeReplaceableRandomAccessCollection: RandomAccessCollection {
-  public typealias Index = MinimalIndex
-  public typealias SubSequence = Slice<Self>
-  public typealias Indices = DefaultIndices<Self>
+  typealias Index = MinimalIndex
+  typealias SubSequence = Slice<Self>
+  typealias Indices = DefaultIndices<Self>
 
-  public var startIndex: MinimalIndex {
+  var startIndex: MinimalIndex {
     timesIndexNavigationCalled.increment()
     return _core.startIndex
   }
 
-  public var endIndex: MinimalIndex {
+  var endIndex: MinimalIndex {
     timesIndexNavigationCalled.increment()
     return _core.endIndex
   }
 
-  public var isEmpty: Bool {
+  var isEmpty: Bool {
     timesIndexNavigationCalled.increment()
     return _core.isEmpty
   }
 
-  public var count: Int {
+  var count: Int {
     timesIndexNavigationCalled.increment()
     return _core.count
   }
 
-  public func _failEarlyRangeCheck(
+  func _failEarlyRangeCheck(
     _ index: MinimalIndex,
     bounds: Range<MinimalIndex>
   ) {
@@ -87,7 +87,7 @@ extension MinimalRangeReplaceableRandomAccessCollection: RandomAccessCollection 
     _core._failEarlyRangeCheck(index, bounds: bounds)
   }
 
-  public func _failEarlyRangeCheck(
+  func _failEarlyRangeCheck(
     _ range: Range<MinimalIndex>,
     bounds: Range<MinimalIndex>
   ) {
@@ -95,33 +95,33 @@ extension MinimalRangeReplaceableRandomAccessCollection: RandomAccessCollection 
     _core._failEarlyRangeCheck(range, bounds: bounds)
   }
 
-  public func index(after i: MinimalIndex) -> MinimalIndex {
+  func index(after i: MinimalIndex) -> MinimalIndex {
     timesIndexNavigationCalled.increment()
     return _core.index(after: i)
   }
 
-  public func index(before i: MinimalIndex) -> MinimalIndex {
+  func index(before i: MinimalIndex) -> MinimalIndex {
     timesIndexNavigationCalled.increment()
     return _core.index(before: i)
   }
 
-  public func distance(from start: MinimalIndex, to end: MinimalIndex)
+  func distance(from start: MinimalIndex, to end: MinimalIndex)
     -> Int {
     timesIndexNavigationCalled.increment()
     return _core.distance(from: start, to: end)
   }
 
-  public func index(_ i: Index, offsetBy n: Int) -> Index {
+  func index(_ i: Index, offsetBy n: Int) -> Index {
     timesIndexNavigationCalled.increment()
     return _core.index(i, offsetBy: n)
   }
 
-  public subscript(i: MinimalIndex) -> Element {
+  subscript(i: MinimalIndex) -> Element {
     timesSubscriptGetterCalled.increment()
     return _core[i]
   }
 
-  public subscript(bounds: Range<MinimalIndex>) -> SubSequence {
+  subscript(bounds: Range<MinimalIndex>) -> SubSequence {
     timesRangeSubscriptGetterCalled.increment()
     _core.assertValid(bounds)
     return Slice(base: self, bounds: bounds)
@@ -134,70 +134,70 @@ extension MinimalRangeReplaceableRandomAccessCollection: RandomAccessCollection 
 }
 
 extension MinimalRangeReplaceableRandomAccessCollection: RangeReplaceableCollection {
-  public init() {
+  init() {
     self.init([])
   }
 
-  public mutating func replaceSubrange<C: Collection>(
+  mutating func replaceSubrange<C: Collection>(
     _ subrange: Range<Index>,
     with newElements: C
   ) where C.Element == Element {
     _core.replaceSubrange(subrange, with: newElements)
   }
 
-  public mutating func reserveCapacity(_ n: Int) {
+  mutating func reserveCapacity(_ n: Int) {
     _core.reserveCapacity(minimumCapacity: n)
   }
 
-  public init<S: Sequence>(_ elements: S) where S.Element == Element {
+  init<S: Sequence>(_ elements: S) where S.Element == Element {
     self.init(elements, context: TestContext.current)
   }
 
-  public mutating func append(_ newElement: Element) {
+  mutating func append(_ newElement: Element) {
     _core.append(newElement)
   }
 
-  public mutating func append<S: Sequence>(
+  mutating func append<S: Sequence>(
     contentsOf newElements: S
   ) where S.Element == Element {
     _core.append(contentsOf: newElements)
   }
 
-  public mutating func insert(_ newElement: Element, at i: Index) {
+  mutating func insert(_ newElement: Element, at i: Index) {
     _core.insert(newElement, at: i)
   }
 
   @discardableResult
-  public mutating func remove(at i: Index) -> Element {
+  mutating func remove(at i: Index) -> Element {
     return _core.remove(at: i)
   }
 
-  public mutating func removeSubrange(_ bounds: Range<Index>) {
+  mutating func removeSubrange(_ bounds: Range<Index>) {
     _core.removeSubrange(bounds)
   }
 
-  public mutating func _customRemoveLast() -> Element? {
+  mutating func _customRemoveLast() -> Element? {
     return _core._customRemoveLast()
   }
 
-  public mutating func _customRemoveLast(_ n: Int) -> Bool {
+  mutating func _customRemoveLast(_ n: Int) -> Bool {
     return _core._customRemoveLast(n)
   }
 
   @discardableResult
-  public mutating func removeFirst() -> Element {
+  mutating func removeFirst() -> Element {
     return _core.removeFirst()
   }
 
-  public mutating func removeFirst(_ n: Int) {
+  mutating func removeFirst(_ n: Int) {
     _core.removeFirst(n)
   }
 
-  public mutating func removeAll(keepingCapacity keepCapacity: Bool) {
+  mutating func removeAll(keepingCapacity keepCapacity: Bool) {
     _core.removeAll(keepingCapacity: keepCapacity)
   }
 
-  public mutating func removeAll(
+  mutating func removeAll(
     where shouldBeRemoved: (Element) throws -> Bool) rethrows {
     try _core.removeAll(where: shouldBeRemoved)
   }

@@ -16,7 +16,7 @@ extension OrderedSet {
   ///
   /// - Complexity: O(`self.count + other.count`)
   @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-  public func difference(
+  func difference(
     from other: Self
   ) -> CollectionDifference<Element> {
     /* While admitting that variables with names like "a", "b", "x", and "y" are not especially readable, their use (and meaning) is standard in the diffing literature and familiarity with that literature will help if you're reading this code anyway. */
@@ -92,7 +92,7 @@ extension OrderedSet {
   /// - Complexity: O(*n* + *c*), where *n* is `self.count` and *c*
   ///   is the number of changes contained by the parameter.
   @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-  public func applying(_ difference: CollectionDifference<Element>) -> Self? {
+  func applying(_ difference: CollectionDifference<Element>) -> Self? {
     guard let array = self.elements.applying(difference) else { return nil }
     let result = OrderedSet(array)
     return result.count == array.count ? result : nil

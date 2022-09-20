@@ -10,8 +10,8 @@
 //===----------------------------------------------------------------------===//
 
 import XCTest
-import _CollectionsTestSupport
-@_spi(Testing) import DequeModule
+@testable import _CollectionsTestSupport
+@testable @_spi(Testing) import DequeModule
 
 /// Exhaustive tests for `Deque`'s implementations for `RangeReplaceableCollection`
 /// requirements.

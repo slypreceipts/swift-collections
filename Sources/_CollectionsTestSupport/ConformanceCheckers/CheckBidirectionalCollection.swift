@@ -40,7 +40,7 @@ extension BidirectionalCollection {
   }
 }
 
-public func checkBidirectionalCollection<C: BidirectionalCollection, S: Sequence>(
+func checkBidirectionalCollection<C: BidirectionalCollection, S: Sequence>(
   _ collection: C,
   expectedContents: S,
   file: StaticString = #file,
@@ -54,7 +54,7 @@ public func checkBidirectionalCollection<C: BidirectionalCollection, S: Sequence
     line: line)
 }
 
-public func checkBidirectionalCollection<C: BidirectionalCollection, S: Sequence>(
+func checkBidirectionalCollection<C: BidirectionalCollection, S: Sequence>(
   _ collection: C,
   expectedContents: S,
   by areEquivalent: (S.Element, S.Element) -> Bool,
@@ -75,7 +75,7 @@ public func checkBidirectionalCollection<C: BidirectionalCollection, S: Sequence
     file: file, line: line)
 }
 
-public func _checkBidirectionalCollection<C: BidirectionalCollection, S: Sequence>(
+func _checkBidirectionalCollection<C: BidirectionalCollection, S: Sequence>(
   _ collection: C,
   expectedContents: S,
   by areEquivalent: (S.Element, S.Element) -> Bool,

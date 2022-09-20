@@ -11,7 +11,7 @@
 
 import XCTest
 
-public final class TestContext {
+final class TestContext {
   internal var _nextStateId = 0
   internal var _nextIndexId = 0
 
@@ -22,29 +22,29 @@ public final class TestContext {
   // FIXME: This ought to be a thread-local variable.
   internal static var _current: TestContext?
 
-  public init() {}
+  init() {}
 }
 
 extension TestContext {
-  public static var current: TestContext {
+  static var current: TestContext {
     guard let current = _current else {
       fatalError("There is no current test context")
     }
     return current
   }
 
-  public static func pushNew() -> TestContext {
+  static func pushNew() -> TestContext {
     let context = TestContext()
     push(context)
     return context
   }
 
-  public static func push(_ context: TestContext) {
+  static func push(_ context: TestContext) {
     precondition(_current == nil, "Can't nest test contexts")
     _current = context
   }
 
-  public static func pop(_ context: TestContext) {
+  static func pop(_ context: TestContext) {
     precondition(_current === context, "Can't pop mismatching context")
     _current = nil
   }
@@ -52,12 +52,12 @@ extension TestContext {
 
 extension TestContext {
   /// An entry in the stack trace. Associates a user-specified label with its associated source position.
-  public struct Entry: Hashable, CustomStringConvertible {
+  struct Entry: Hashable, CustomStringConvertible {
     let label: String
     let file: StaticString
     let line: UInt
 
-    public init(
+    init(
       label: String,
       file: StaticString = #file,
       line: UInt = #line
@@ -67,18 +67,18 @@ extension TestContext {
       self.line = line
     }
 
-    public var description: String {
+    var description: String {
       "\(label) (\(file):\(line))"
     }
 
-    public static func ==(left: Self, right: Self) -> Bool {
+    static func ==(left: Self, right: Self) -> Bool {
       left.label == right.label
         && left.file.utf8Start == right.file.utf8Start
         && left.file.utf8CodeUnitCount == right.file.utf8CodeUnitCount
         && left.line == right.line
     }
 
-    public func hash(into hasher: inout Hasher) {
+    func hash(into hasher: inout Hasher) {
       hasher.combine(label)
       hasher.combine(file.utf8Start)
       hasher.combine(file.utf8CodeUnitCount)
@@ -88,7 +88,7 @@ extension TestContext {
 }
 
 extension TestContext: Equatable {
-  public static func ==(left: TestContext, right: TestContext) -> Bool {
+  static func ==(left: TestContext, right: TestContext) -> Bool {
     return left === right
   }
 }
@@ -110,7 +110,7 @@ extension TestContext {
   /// This call must be paired with a `pop` call with the same value,
   /// with no intervening unpopped pushes.
   @discardableResult
-  public func push(_ entry: Entry) -> Entry {
+  func push(_ entry: Entry) -> Entry {
     _trace.append(entry)
     return entry
   }
@@ -119,7 +119,7 @@ extension TestContext {
   /// This call must be paired with a `pop` call with the same value,
   /// with no intervening unpopped pushes.
   @discardableResult
-  public func push(
+  func push(
     _ label: String,
     file: StaticString = #file,
     line: UInt = #line
@@ -130,7 +130,7 @@ extension TestContext {
   /// Cancel the trace push that returned `trace` and pop the context trace back
   /// to the state it was before the push. All pushes since the one that pushed `trace`
   /// must have been popped at the time this is called.
-  public func pop(_ entry: Entry) {
+  func pop(_ entry: Entry) {
     let old = _trace.removeLast()
     precondition(
       old == entry,
@@ -144,7 +144,7 @@ extension TestContext {
 
   /// Execute the supplied closure in a new nested trace entry `entry`.
   /// Assertion failure messages within the closure will include the specified information to aid with debugging.
-  public func withTrace<R>(
+  func withTrace<R>(
     _ entry: Entry,
     _ body: () throws -> R
   ) rethrows -> R {
@@ -155,7 +155,7 @@ extension TestContext {
 
   /// Execute the supplied closure in a new nested trace entry.
   /// Assertion failure messages within the closure will include the specified information to aid with debugging.
-  public func withTrace<R>(
+  func withTrace<R>(
     _ label: String,
     file: StaticString = #file,
     line: UInt = #line,
@@ -167,12 +167,12 @@ extension TestContext {
   }
 
   /// The current stack of tracing labels with their associated source positions.
-  public var currentTrace: [Entry] { _trace }
+  var currentTrace: [Entry] { _trace }
 
   /// Return a (multi-line) string describing the current trace stack.
   /// This string can be used to identify a particular test context,
   /// for use in `failIfTraceMatches`.
-  public func currentTrace(
+  func currentTrace(
     _ message: String = "",
     title: String = "Trace"
   ) -> String {
@@ -194,7 +194,7 @@ extension TestContext {
     return result
   }
 
-  public static func currentTrace(
+  static func currentTrace(
     _ message: String = "",
     title: String = "Trace"
   ) -> String {
@@ -206,7 +206,7 @@ extension TestContext {
   /// triggers a test failure. The alternative is to set up a "Test Failure" breakpoint,
   /// but if you have lots of test failures, that one might trigger too many times.
   @inline(never)
-  public func debuggerBreak(
+  func debuggerBreak(
     _ message: String,
     file: StaticString = #file,
     line: UInt = #line
@@ -239,7 +239,7 @@ extension TestContext {
   ///       }
   ///     }
   ///
-  public func failIfTraceMatches(
+  func failIfTraceMatches(
     _ expectedTrace: String,
     file: StaticString = #file,
     line: UInt = #line

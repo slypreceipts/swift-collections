@@ -18,7 +18,7 @@ import XCTest
 
 // FIXME: Port the collection validation tests from the Swift compiler codebase.
 
-public func checkSequence<S: Sequence, Expected: Sequence>(
+func checkSequence<S: Sequence, Expected: Sequence>(
   _ sequenceGenerator: () -> S,
   expectedContents: Expected,
   file: StaticString = #file,
@@ -32,7 +32,7 @@ public func checkSequence<S: Sequence, Expected: Sequence>(
     line: line)
 }
 
-public func checkSequence<S: Sequence, Expected: Sequence>(
+func checkSequence<S: Sequence, Expected: Sequence>(
   _ sequenceGenerator: () -> S,
   expectedContents: Expected,
   by areEquivalent: (S.Element, S.Element) -> Bool,

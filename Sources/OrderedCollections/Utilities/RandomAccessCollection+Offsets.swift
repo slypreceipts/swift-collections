@@ -10,19 +10,19 @@
 //===----------------------------------------------------------------------===//
 
 extension RandomAccessCollection {
-  @inlinable
+
   @inline(__always)
   internal func _index(at offset: Int) -> Index {
     index(startIndex, offsetBy: offset)
   }
 
-  @inlinable
+
   @inline(__always)
   internal func _offset(of index: Index) -> Int {
     distance(from: startIndex, to: index)
   }
 
-  @inlinable
+
   @inline(__always)
   internal subscript(_offset offset: Int) -> Element {
     self[_index(at: offset)]

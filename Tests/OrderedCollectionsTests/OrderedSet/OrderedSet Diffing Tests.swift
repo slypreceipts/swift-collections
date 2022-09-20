@@ -10,8 +10,8 @@
 //===----------------------------------------------------------------------===//
 
 import XCTest
-import OrderedCollections
-import _CollectionsTestSupport
+@testable import OrderedCollections
+@testable import _CollectionsTestSupport
 
 class MeasuringHashable: Hashable {
   static var equalityChecks = 0

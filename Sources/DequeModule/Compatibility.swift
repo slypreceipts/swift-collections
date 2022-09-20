@@ -14,7 +14,7 @@ extension Array {
   /// in the stdlib we're currently running on.
   ///
   /// See https://bugs.swift.org/browse/SR-14663.
-  @inlinable
+
   internal static func _isWCSIABroken() -> Bool {
     #if _runtime(_ObjC)
     guard _isBridgedVerbatimToObjectiveC(Element.self) else {
@@ -49,7 +49,7 @@ extension Array {
 extension Sequence {
   // An adjusted version of the standard `withContiguousStorageIfAvailable`
   // method that works around https://bugs.swift.org/browse/SR-14663.
-  @inlinable
+
   internal func _withContiguousStorageIfAvailable_SR14663<R>(
     _ body: (UnsafeBufferPointer<Element>) throws -> R
   ) rethrows -> R? {

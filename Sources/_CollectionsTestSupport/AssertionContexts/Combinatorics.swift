@@ -11,7 +11,7 @@
 
 /// Run the supplied closure with all values in `items` in a loop,
 /// recording the current value in the current test trace stack.
-public func withEvery<S: Sequence>(
+func withEvery<S: Sequence>(
   _ label: String,
   in items: S,
   file: StaticString = #file,
@@ -33,7 +33,7 @@ public func withEvery<S: Sequence>(
   }
 }
 
-public func withEveryRange<T: Strideable>(
+func withEveryRange<T: Strideable>(
   _ label: String,
   in bounds: Range<T>,
   file: StaticString = #file,
@@ -76,7 +76,7 @@ internal func _samples<C: Collection>(from items: C) -> [C.Element] {
 
 /// Run the supplied closure with all values in `items` in a loop,
 /// recording the current value in the current test trace stack.
-public func withSome<C: Collection>(
+func withSome<C: Collection>(
   _ label: String,
   in items: C,
   file: StaticString = #file,
@@ -98,7 +98,7 @@ public func withSome<C: Collection>(
   }
 }
 
-public func withSomeRanges<T: Strideable>(
+func withSomeRanges<T: Strideable>(
   _ label: String,
   in bounds: Range<T>,
   file: StaticString = #file,
@@ -134,7 +134,7 @@ public func withSomeRanges<T: Strideable>(
 ///    - `value`: The collection value that is being tested.
 ///    - `checker`: An optional function that is used to check the consistency of the hidden copy.
 ///    - `body`: A closure performing a mutation on `value`.
-public func withHiddenCopies<S: Sequence, R>(
+func withHiddenCopies<S: Sequence, R>(
   if enabled: Bool,
   of value: inout S,
   checker: (S) -> Void = { _ in },
@@ -161,7 +161,7 @@ public func withHiddenCopies<S: Sequence, R>(
 ///    - `value`: The collection value that is being tested.
 ///    - `checker`: An optional function that is used to check the consistency of the hidden copy.
 ///    - `body`: A closure performing a mutation on `value`.
-public func withHiddenCopies<
+func withHiddenCopies<
   S: Sequence,
   Key: Equatable,
   Value: Equatable,

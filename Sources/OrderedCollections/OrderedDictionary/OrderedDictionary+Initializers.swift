@@ -16,9 +16,9 @@ extension OrderedDictionary {
   /// literal.
   ///
   /// - Complexity: O(1)
-  @inlinable
+
   @inline(__always)
-  public init() {
+  init() {
     self._keys = OrderedSet()
     self._values = []
   }
@@ -47,9 +47,9 @@ extension OrderedDictionary {
   ///   to shrink storage below any previously reserved capacity.
   ///
   /// - Complexity: O(`minimumCapacity`)
-  @inlinable
+
   @inline(__always)
-  public init(minimumCapacity: Int, persistent: Bool = false) {
+  init(minimumCapacity: Int, persistent: Bool = false) {
     self._keys = OrderedSet(minimumCapacity: minimumCapacity, persistent: persistent)
     self._values = []
     _values.reserveCapacity(minimumCapacity)
@@ -76,8 +76,8 @@ extension OrderedDictionary {
   /// - Complexity: Expected O(*n*) on average, where *n* is the count if
   ///    key-value pairs, if `Key` implements high-quality hashing.
   @_disfavoredOverload // https://github.com/apple/swift-collections/issues/125
-  @inlinable
-  public init<S: Sequence>(
+
+  init<S: Sequence>(
     uniqueKeysWithValues keysAndValues: S
   ) where S.Element == (key: Key, value: Value) {
     if S.self == Dictionary<Key, Value>.self {
@@ -112,8 +112,8 @@ extension OrderedDictionary {
   ///
   /// - Complexity: Expected O(*n*) on average, where *n* is the count if
   ///    key-value pairs, if `Key` implements high-quality hashing.
-  @inlinable
-  public init<S: Sequence>(
+
+  init<S: Sequence>(
     uniqueKeysWithValues keysAndValues: S
   ) where S.Element == (Key, Value) {
     self.init()
@@ -147,8 +147,8 @@ extension OrderedDictionary {
   ///
   /// - Complexity: Expected O(*n*) on average, where *n* is the count if
   ///    key-value pairs, if `Key` implements high-quality hashing.
-  @inlinable
-  public init<Keys: Sequence, Values: Sequence>(
+
+  init<Keys: Sequence, Values: Sequence>(
     uniqueKeys keys: Keys,
     values: Values
   ) where Keys.Element == Key, Values.Element == Value {
@@ -197,9 +197,9 @@ extension OrderedDictionary {
   /// - Complexity: Expected O(*n*) on average, where *n* is the count of
   ///    key-value pairs, if `Key` implements high-quality hashing.
   @_disfavoredOverload // https://github.com/apple/swift-collections/issues/125
-  @inlinable
+
   @inline(__always)
-  public init<S: Sequence>(
+  init<S: Sequence>(
     _ keysAndValues: S,
     uniquingKeysWith combine: (Value, Value) throws -> Value
   ) rethrows where S.Element == (key: Key, value: Value) {
@@ -239,9 +239,9 @@ extension OrderedDictionary {
   ///
   /// - Complexity: Expected O(*n*) on average, where *n* is the count of
   ///    key-value pairs, if `Key` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public init<S: Sequence>(
+  init<S: Sequence>(
     _ keysAndValues: S,
     uniquingKeysWith combine: (Value, Value) throws -> Value
   ) rethrows where S.Element == (Key, Value) {
@@ -276,8 +276,8 @@ extension OrderedDictionary {
   ///
   /// - Complexity: Expected O(*n*) on average, where *n* is the count of
   ///    values, if `Key` implements high-quality hashing.
-  @inlinable
-  public init<S: Sequence>(
+
+  init<S: Sequence>(
     grouping values: S,
     by keyForValue: (S.Element) throws -> Key
   ) rethrows where Value: RangeReplaceableCollection, Value.Element == S.Element {
@@ -309,8 +309,8 @@ extension OrderedDictionary {
   ///
   /// - Complexity: Expected O(*n*) on average, where *n* is the count of
   ///    values, if `Key` implements high-quality hashing.
-  @inlinable
-  public init<S: Sequence>(
+
+  init<S: Sequence>(
     grouping values: S,
     by keyForValue: (S.Element) throws -> Key
   ) rethrows where Value == [S.Element] {
@@ -320,7 +320,7 @@ extension OrderedDictionary {
     try self.init(_grouping: values, by: keyForValue)
   }
 
-  @inlinable
+
   internal init<S: Sequence>(
     _grouping values: S,
     by keyForValue: (S.Element) throws -> Key
@@ -336,7 +336,7 @@ extension OrderedDictionary {
 }
 
 extension OrderedDictionary {
-  @inlinable
+
   internal init<S: Sequence>(
     _uncheckedUniqueKeysWithValues keysAndValues: S
   ) where S.Element == (key: Key, value: Value) {
@@ -371,8 +371,8 @@ extension OrderedDictionary {
   /// - Complexity: Expected O(*n*) on average, where *n* is the count if
   ///    key-value pairs, if `Key` implements high-quality hashing.
   @_disfavoredOverload // https://github.com/apple/swift-collections/issues/125
-  @inlinable
-  public init<S: Sequence>(
+
+  init<S: Sequence>(
     uncheckedUniqueKeysWithValues keysAndValues: S
   ) where S.Element == (key: Key, value: Value) {
 #if DEBUG
@@ -403,8 +403,8 @@ extension OrderedDictionary {
   ///
   /// - Complexity: Expected O(*n*) on average, where *n* is the count if
   ///    key-value pairs, if `Key` implements high-quality hashing.
-  @inlinable
-  public init<S: Sequence>(
+
+  init<S: Sequence>(
     uncheckedUniqueKeysWithValues keysAndValues: S
   ) where S.Element == (Key, Value) {
     // Add tuple labels
@@ -437,9 +437,9 @@ extension OrderedDictionary {
   ///
   /// - Complexity: Expected O(*n*) on average, where *n* is the count if
   ///    key-value pairs, if `Key` implements high-quality hashing.
-  @inlinable
+
   @inline(__always)
-  public init<Keys: Sequence, Values: Sequence>(
+  init<Keys: Sequence, Values: Sequence>(
     uncheckedUniqueKeys keys: Keys,
     values: Values
   ) where Keys.Element == Key, Values.Element == Value {

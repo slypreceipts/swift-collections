@@ -12,7 +12,7 @@
 @_fixed_layout
 @usableFromInline
 internal class _DequeBuffer<Element>: ManagedBuffer<_DequeBufferHeader, Element> {
-  @inlinable
+
   deinit {
     self.withUnsafeMutablePointers { header, elements in
       header.pointee._checkInvariants()

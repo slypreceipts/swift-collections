@@ -10,15 +10,15 @@
 //
 //===----------------------------------------------------------------------===//
 
-public final class HashableBox<T: Hashable>: Hashable {
-  public init(_ value: T) { self.value = value }
-  public var value: T
+final class HashableBox<T: Hashable>: Hashable {
+  init(_ value: T) { self.value = value }
+  var value: T
 
-  public static func ==(left: HashableBox, right: HashableBox) -> Bool {
+  static func ==(left: HashableBox, right: HashableBox) -> Bool {
     left.value == right.value
   }
 
-  public func hash(into hasher: inout Hasher) {
+  func hash(into hasher: inout Hasher) {
     hasher.combine(value)
   }
 }

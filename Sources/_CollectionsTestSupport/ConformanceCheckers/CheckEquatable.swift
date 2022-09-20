@@ -12,7 +12,7 @@
 
 // Loosely adapted from https://github.com/apple/swift/tree/main/stdlib/private/StdlibUnittest
 
-public func checkEquatable<Instance: Equatable>(
+func checkEquatable<Instance: Equatable>(
   equivalenceClasses: [[Instance]],
   file: StaticString = #file,
   line: UInt = #line
@@ -22,7 +22,7 @@ public func checkEquatable<Instance: Equatable>(
   checkEquatable(instances, oracle: { oracle[$0] == oracle[$1] }, file: file, line: line)
 }
 
-public func checkEquatable<C: Collection>(
+func checkEquatable<C: Collection>(
   _ instances: C,
   oracle: (C.Index, C.Index) -> Bool,
   file: StaticString = #file,
@@ -35,7 +35,7 @@ public func checkEquatable<C: Collection>(
     file: file, line: line)
 }
 
-public func checkEquatable<T : Equatable>(
+func checkEquatable<T : Equatable>(
   expectedEqual: Bool, _ lhs: T, _ rhs: T,
   file: StaticString = #file, line: UInt = #line
 ) {
@@ -45,7 +45,7 @@ public func checkEquatable<T : Equatable>(
     file: file, line: line)
 }
 
-public func checkEquatable<Instance: Equatable>(
+func checkEquatable<Instance: Equatable>(
   _ instances: [Instance],
   oracle: (Int, Int) -> Bool,
   file: StaticString = #file,

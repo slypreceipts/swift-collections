@@ -36,7 +36,7 @@ internal struct _DequeBufferHeader {
     precondition(startSlot.position >= 0 && startSlot.position <= capacity)
   }
   #else
-  @inlinable @inline(__always)
+ @inline(__always)
   internal func _checkInvariants() {}
   #endif // COLLECTIONS_INTERNAL_CHECKS
 }

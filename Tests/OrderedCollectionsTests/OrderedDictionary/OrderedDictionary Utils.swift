@@ -9,8 +9,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import _CollectionsTestSupport
-import OrderedCollections
+@testable import _CollectionsTestSupport
+@testable import OrderedCollections
 
 extension LifetimeTracker {
   func orderedDictionary<Keys: Sequence>(

@@ -13,19 +13,19 @@
 // Loosely adapted from https://github.com/apple/swift/tree/main/stdlib/private/StdlibCollectionUnittest
 
 /// A minimal implementation of `Collection` with extra checks.
-public struct MinimalCollection<Element> {
+struct MinimalCollection<Element> {
   internal var _core: _MinimalCollectionCore<Element>
 
-  public let timesMakeIteratorCalled = ResettableValue(0)
-  public let timesUnderestimatedCountCalled = ResettableValue(0)
-  public let timesStartIndexCalled = ResettableValue(0)
-  public let timesEndIndexCalled = ResettableValue(0)
-  public let timesRangeChecksCalled = ResettableValue(0)
-  public let timesIndexAfterCalled = ResettableValue(0)
-  public let timesSubscriptCalled = ResettableValue(0)
-  public let timesRangeSubscriptCalled = ResettableValue(0)
+  let timesMakeIteratorCalled = ResettableValue(0)
+  let timesUnderestimatedCountCalled = ResettableValue(0)
+  let timesStartIndexCalled = ResettableValue(0)
+  let timesEndIndexCalled = ResettableValue(0)
+  let timesRangeChecksCalled = ResettableValue(0)
+  let timesIndexAfterCalled = ResettableValue(0)
+  let timesSubscriptCalled = ResettableValue(0)
+  let timesRangeSubscriptCalled = ResettableValue(0)
 
-  public init<S: Sequence>(
+  init<S: Sequence>(
     _ elements: S,
     context: TestContext = TestContext.current,
     underestimatedCount: UnderestimatedCountBehavior = .value(0)
@@ -39,49 +39,49 @@ public struct MinimalCollection<Element> {
 }
 
 extension MinimalCollection: Sequence {
-  public typealias Iterator = MinimalIterator<Element>
+  typealias Iterator = MinimalIterator<Element>
 
-  public func makeIterator() -> MinimalIterator<Element> {
+  func makeIterator() -> MinimalIterator<Element> {
     timesMakeIteratorCalled.increment()
     return MinimalIterator(_core.elements)
   }
 
-  public var underestimatedCount: Int {
+  var underestimatedCount: Int {
     timesUnderestimatedCountCalled.increment()
     return _core.underestimatedCount
   }
 }
 
 extension MinimalCollection: Collection {
-  public typealias Index = MinimalIndex
-  public typealias SubSequence = Slice<Self>
-  public typealias Indices = DefaultIndices<Self>
+  typealias Index = MinimalIndex
+  typealias SubSequence = Slice<Self>
+  typealias Indices = DefaultIndices<Self>
 
-  public var startIndex: MinimalIndex {
+  var startIndex: MinimalIndex {
     timesStartIndexCalled.increment()
     return _core.startIndex
   }
 
-  public var endIndex: MinimalIndex {
+  var endIndex: MinimalIndex {
     timesEndIndexCalled.increment()
     return _core.endIndex
   }
 
-  public var isEmpty: Bool {
+  var isEmpty: Bool {
     // Pretend this is implemented as `startIndex == endIndex`.
     timesStartIndexCalled.increment()
     timesEndIndexCalled.increment()
     return _core.isEmpty
   }
 
-  public var count: Int {
+  var count: Int {
     // Pretend this is implemented by counting elements using `index(after:)`.
     let result = _core.count
     timesIndexAfterCalled.increment(by: result)
     return result
   }
 
-  public func _failEarlyRangeCheck(
+  func _failEarlyRangeCheck(
     _ index: MinimalIndex,
     bounds: Range<MinimalIndex>
   ) {
@@ -89,7 +89,7 @@ extension MinimalCollection: Collection {
     _core._failEarlyRangeCheck(index, bounds: bounds)
   }
 
-  public func _failEarlyRangeCheck(
+  func _failEarlyRangeCheck(
     _ range: Range<MinimalIndex>,
     bounds: Range<MinimalIndex>
   ) {
@@ -97,12 +97,12 @@ extension MinimalCollection: Collection {
     _core._failEarlyRangeCheck(range, bounds: bounds)
   }
 
-  public func index(after i: MinimalIndex) -> MinimalIndex {
+  func index(after i: MinimalIndex) -> MinimalIndex {
     timesIndexAfterCalled.increment()
     return _core.index(after: i)
   }
 
-  public func distance(from start: MinimalIndex, to end: MinimalIndex)
+  func distance(from start: MinimalIndex, to end: MinimalIndex)
     -> Int {
     // Pretend this is implemented by counting elements using `index(after:)`.
    expectTrue(
@@ -114,7 +114,7 @@ extension MinimalCollection: Collection {
     return result
   }
 
-  public func index(_ i: Index, offsetBy n: Int) -> Index {
+  func index(_ i: Index, offsetBy n: Int) -> Index {
     // Pretend this is implemented by iterating elements using `index(after:)`.
     expectTrue(
       n >= 0,
@@ -124,12 +124,12 @@ extension MinimalCollection: Collection {
     return _core.index(i, offsetBy: n)
   }
 
-  public subscript(i: MinimalIndex) -> Element {
+  subscript(i: MinimalIndex) -> Element {
     timesSubscriptCalled.increment()
     return _core[i]
   }
 
-  public subscript(bounds: Range<MinimalIndex>) -> SubSequence {
+  subscript(bounds: Range<MinimalIndex>) -> SubSequence {
     timesRangeSubscriptCalled.increment()
     _core.assertValid(bounds)
     return Slice(base: self, bounds: bounds)

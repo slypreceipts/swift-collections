@@ -9,7 +9,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-public struct RepeatableRandomNumberGenerator: RandomNumberGenerator {
+struct RepeatableRandomNumberGenerator: RandomNumberGenerator {
   // This uses the same linear congruential generator as rand48.
   // FIXME: Replace with something better.
   internal static let _m: UInt64 = 1 << 48
@@ -18,11 +18,11 @@ public struct RepeatableRandomNumberGenerator: RandomNumberGenerator {
 
   internal var _state: UInt64
 
-  public init(seed: Int) {
+  init(seed: Int) {
     self.init(seed: UInt64(truncatingIfNeeded: seed))
   }
 
-  public init(seed: UInt64) {
+  init(seed: UInt64) {
     // Perturb the seed a little so that the sequence doesn't start with a
     // zero value in the common case of seed == 0. (Using a zero seed is a
     // rather silly thing to do, but it's the easy thing.)
@@ -34,7 +34,7 @@ public struct RepeatableRandomNumberGenerator: RandomNumberGenerator {
     return _state &>> 16
   }
 
-  public mutating func next() -> UInt64 {
+  mutating func next() -> UInt64 {
     return (_next() &<< 32) | _next()
   }
 }

@@ -14,13 +14,12 @@ extension _HashTable {
   /// Having a dedicated wrapper type for this prevents passing a bucket number
   /// to a function that expects a word index, or vice versa.
   @usableFromInline
-  @frozen
   internal struct Bucket {
     /// The distance of this bucket from the first bucket in the hash table.
     @usableFromInline
     internal var offset: Int
 
-    @inlinable
+  
     @inline(__always)
     internal init(offset: Int) {
       assert(offset >= 0)
@@ -31,7 +30,8 @@ extension _HashTable {
 
 extension _HashTable.Bucket: Equatable {
   @_transparent
-  public static func == (left: Self, right: Self) -> Bool {
+  @usableFromInline
+  static func == (left: Self, right: Self) -> Bool {
     left.offset == right.offset
   }
 }

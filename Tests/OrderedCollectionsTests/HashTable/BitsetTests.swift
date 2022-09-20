@@ -11,8 +11,8 @@
 
 #if DEBUG // These unit tests need access to OrderedSet internals
 import XCTest
-import _CollectionsTestSupport
-@_spi(Testing) @testable import OrderedCollections
+@testable import _CollectionsTestSupport
+@testable @_spi(Testing) import OrderedCollections
 
 class BitsetTests: CollectionTestCase {
   typealias Word = _UnsafeBitset.Word

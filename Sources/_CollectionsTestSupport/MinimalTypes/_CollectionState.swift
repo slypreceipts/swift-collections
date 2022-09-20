@@ -94,13 +94,13 @@ final class _CollectionState {
 }
 
 extension _CollectionState: Equatable {
-  public static func == (left: _CollectionState, right: _CollectionState) -> Bool {
+  static func == (left: _CollectionState, right: _CollectionState) -> Bool {
     return left.id == right.id
   }
 }
 
 extension _CollectionState: Hashable {
-  public func hash(into hasher: inout Hasher) {
+  func hash(into hasher: inout Hasher) {
     hasher.combine(id)
   }
 }

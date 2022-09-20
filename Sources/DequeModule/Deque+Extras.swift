@@ -35,8 +35,8 @@ extension Deque {
   ///       - initializedCount: The count of initialized elements in the deque,
   ///         which begins as zero. Set `initializedCount` to the number of
   ///         elements you initialize.
-  @inlinable
-  public init(
+
+  init(
     unsafeUninitializedCapacity capacity: Int,
     initializingWith initializer:
       (inout UnsafeMutableBufferPointer<Element>, inout Int) throws -> Void
@@ -67,8 +67,8 @@ extension Deque {
   ///
   /// - Complexity: O(1) when this instance has a unique reference to its
   ///    underlying storage; O(`count`) otherwise.
-  @inlinable
-  public mutating func popFirst() -> Element? {
+
+  mutating func popFirst() -> Element? {
     // FIXME: Add this to the stdlib on BidirectionalCollection
     // where Self == Self.SubSequence
     guard count > 0 else { return nil }
@@ -105,8 +105,8 @@ extension Deque {
   /// - Complexity: Amortized O(1).
   ///
   /// - SeeAlso: `append(_:)`
-  @inlinable
-  public mutating func prepend(_ newElement: Element) {
+
+  mutating func prepend(_ newElement: Element) {
     _storage.ensureUnique(minimumCapacity: count + 1)
     return _storage.update {
       $0.uncheckedPrepend(newElement)
@@ -129,8 +129,8 @@ extension Deque {
   /// - Complexity: Amortized O(`newElements.count`).
   ///
   /// - SeeAlso: `append(contentsOf:)`
-  @inlinable
-  public mutating func prepend<C: Collection>(contentsOf newElements: C) where C.Element == Element {
+
+  mutating func prepend<C: Collection>(contentsOf newElements: C) where C.Element == Element {
     let done: Void? = newElements._withContiguousStorageIfAvailable_SR14663 { source in
       _storage.ensureUnique(minimumCapacity: count + source.count)
       _storage.update { $0.uncheckedPrepend(contentsOf: source) }
@@ -164,8 +164,8 @@ extension Deque {
   /// - Complexity: Amortized O(`newElements.count`).
   ///
   /// - SeeAlso: `append(contentsOf:)`
-  @inlinable
-  public mutating func prepend<S: Sequence>(contentsOf newElements: S) where S.Element == Element {
+
+  mutating func prepend<S: Sequence>(contentsOf newElements: S) where S.Element == Element {
     let done: Void? = newElements._withContiguousStorageIfAvailable_SR14663 { source in
       _storage.ensureUnique(minimumCapacity: count + source.count)
       _storage.update { $0.uncheckedPrepend(contentsOf: source) }

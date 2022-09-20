@@ -10,69 +10,69 @@
 //===----------------------------------------------------------------------===//
 
 extension OrderedSet._UnstableInternals {
-  @_spi(Testing) public var capacity: Int { base._capacity }
-  @_spi(Testing) public var minimumCapacity: Int { base._minimumCapacity }
-  @_spi(Testing) public var scale: Int { base._scale }
-  @_spi(Testing) public var reservedScale: Int { base._reservedScale }
-  @_spi(Testing) public var bias: Int { base._bias }
+  var capacity: Int { base._capacity }
+  var minimumCapacity: Int { base._minimumCapacity }
+  var scale: Int { base._scale }
+  var reservedScale: Int { base._reservedScale }
+  var bias: Int { base._bias }
 }
 
 extension OrderedSet {
-  @_spi(Testing)
+
   @_alwaysEmitIntoClient
-  public static var _minimumScale: Int {
+  static var _minimumScale: Int {
     _HashTable.minimumScale
   }
 
-  @_spi(Testing)
+
   @_alwaysEmitIntoClient
-  public static func _minimumCapacity(forScale scale: Int) -> Int {
+  static func _minimumCapacity(forScale scale: Int) -> Int {
     _HashTable.minimumCapacity(forScale: scale)
   }
 
-  @_spi(Testing)
+
   @_alwaysEmitIntoClient
-  public static func _maximumCapacity(forScale scale: Int) -> Int {
+  static func _maximumCapacity(forScale scale: Int) -> Int {
     _HashTable.maximumCapacity(forScale: scale)
   }
 
-  @_spi(Testing)
+
   @_alwaysEmitIntoClient
-  public static func _scale(forCapacity capacity: Int) -> Int {
+  static func _scale(forCapacity capacity: Int) -> Int {
     _HashTable.scale(forCapacity: capacity)
   }
 
-  @_spi(Testing)
+
   @_alwaysEmitIntoClient
-  public static func _biasRange(scale: Int) -> Range<Int> {
+  static func _biasRange(scale: Int) -> Range<Int> {
     guard scale != 0 else { return Range(uncheckedBounds: (0, 1)) }
     return Range(uncheckedBounds: (0, (1 &<< scale) - 1))
   }
 }
 
 extension OrderedSet._UnstableInternals {
-  @_spi(Testing)
-  @_alwaysEmitIntoClient
-  public var hasHashTable: Bool { base._table != nil }
 
-  @_spi(Testing)
   @_alwaysEmitIntoClient
-  public var hashTableIdentity: ObjectIdentifier? {
+  var hasHashTable: Bool { base._table != nil }
+
+
+  @_alwaysEmitIntoClient
+  var hashTableIdentity: ObjectIdentifier? {
     guard let storage = base.__storage else { return nil }
     return ObjectIdentifier(storage)
   }
 
-  @_spi(Testing)
-  public var hashTableContents: [Int?] {
+
+  var hashTableContents: [Int?] {
     guard let table = base._table else { return [] }
     return table.read { hashTable in
       hashTable.debugContents()
     }
   }
 
-  @_spi(Testing)
+
   @_alwaysEmitIntoClient
-  mutating public func _regenerateHashTable(bias: Int) {
+  mutating func _regenerateHashTable(bias: Int) {
     base._ensureUnique()
     let new = base._table!.copy()
     base._table!.read { source in
@@ -89,9 +89,9 @@ extension OrderedSet._UnstableInternals {
     base._checkInvariants()
   }
 
-  @_spi(Testing)
+
   @_alwaysEmitIntoClient
-  public mutating func reserveCapacity(
+  mutating func reserveCapacity(
     _ minimumCapacity: Int,
     persistent: Bool
   ) {
@@ -101,8 +101,8 @@ extension OrderedSet._UnstableInternals {
 }
 
 extension OrderedSet {
-  @_spi(Testing)
-  public init<S: Sequence>(
+
+  init<S: Sequence>(
     _scale scale: Int,
     bias: Int,
     contents: S
